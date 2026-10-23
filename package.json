@@ -1,0 +1,13 @@
+{
+  "name": "sadvidhya-international-school-erp",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "npm --prefix project run dev",
+    "build": "npm --prefix project run build",
+    "preview": "npm --prefix project run preview",
+    "typecheck": "npm --prefix project run typecheck",
+    "lint": "npm --prefix project run lint",
+    "start": "npm --prefix project run dev"
+  }
+}
