@@ -483,7 +483,7 @@ export interface TabsProps {
 
 export function Tabs({ tabs, active, onChange, className = '' }: TabsProps) {
   return (
-    <div className={`flex border-b border-[${colors.border.default}] gap-2 overflow-x-auto scrollbar-thin ${className}`}>
+    <div className={`flex border-b border-[${colors.border.default}] gap-2 overflow-x-auto no-scrollbar [scrollbar-width:none] [&::-webkit-scrollbar]:hidden ${className}`}>
       {tabs.map(item => {
         const key = typeof item === 'string' ? item : item.key;
         const label = typeof item === 'string' ? item : item.label;

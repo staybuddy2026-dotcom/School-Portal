@@ -446,28 +446,15 @@ function Profile({ student }: { student: typeof students[0] }) {
         </div>
       </div>
 
+      {/* Header Tabs Navigation - Positioned Outside and Above Container */}
+      <Tabs
+        tabs={tabs}
+        active={tab}
+        onChange={(val) => setTab(val as typeof tab)}
+      />
+
       {/* Main Profile Hub Card - Full Width Clean Container */}
       <Card className="!p-0 overflow-hidden shadow-sm border border-[#E2E8F0] w-full">
-        {/* Header Tab Menu matching Image 2 layout */}
-        <div className="flex border-b border-[#E2E8F0] px-5 pt-1 gap-2 overflow-x-thin bg-white">
-          {tabs.map(t => {
-            const isActive = tab === t.key;
-            return (
-              <button
-                key={t.key}
-                type="button"
-                onClick={() => setTab(t.key)}
-                className={`flex items-center gap-2 px-4 py-3 text-[14px] font-semibold border-b-2 -mb-px transition-all whitespace-nowrap cursor-pointer ${isActive
-                  ? 'border-[#7C612A] text-[#7C612A] font-bold'
-                  : 'border-transparent text-[#64748B] hover:text-[#17153A] hover:border-[#CBD5E1]'
-                  }`}
-              >
-                <span>{t.label}</span>
-              </button>
-            );
-          })}
-        </div>
-
         {/* Tab Panes */}
         <div className="p-6 sm:p-7">
           {/* Tab 1: Contact & Address */}
@@ -7089,7 +7076,7 @@ function Helpdesk() {
                 onClick={activeServiceMeta.onAction}
                 className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl text-[14px] font-semibold text-white bg-[#7C612A] hover:bg-[#560110] active:bg-[#40000B] transition-all duration-200 shadow-sm hover:shadow-md cursor-pointer whitespace-nowrap"
               >
-                {/* <Icon name="solar:add-circle-linear" size={17} /> */}
+                <Icon name="solar:add-circle-linear" size={17} />
                 <span>{activeServiceMeta.actionText}</span>
               </button>
             </div>
