@@ -400,7 +400,9 @@ export function TeacherAvatar({ name, size = 26, className = '' }: TeacherAvatar
 export interface PillTabItem {
   key: string;
   label: string;
-  badge?: string | number;
+  badge?: number | string;
+  count?: number | string;
+  icon?: string;
 }
 
 export interface PillTabsProps {
@@ -411,38 +413,7 @@ export interface PillTabsProps {
 }
 
 export function PillTabs({ tabs, active, onChange, className = '' }: PillTabsProps) {
-  return (
-    <div className={`flex gap-2 overflow-x-auto pb-1 scrollbar-thin ${className}`}>
-      {tabs.map(item => {
-        const key = typeof item === 'string' ? item : item.key;
-        const label = typeof item === 'string' ? item : item.label;
-        const badge = typeof item === 'string' ? undefined : item.badge;
-        const isActive = active === key;
-
-        return (
-          <button
-            key={key}
-            type="button"
-            onClick={() => onChange(key)}
-            className={`px-4 py-2 rounded-xl text-[12px] font-semibold whitespace-nowrap transition-colors flex items-center gap-2 cursor-pointer ${
-              isActive
-                ? `bg-[${colors.brand.primary}] text-[${colors.text.inverse}] shadow-2xs`
-                : `bg-[${colors.surface.card}] border border-[${colors.border.default}] text-[${colors.text.secondary}] hover:bg-[${colors.surface.hover}]`
-            }`}
-          >
-            <span>{label}</span>
-            {badge !== undefined && (
-              <span className={`px-1.5 py-0.2 rounded-full text-[10px] font-bold ${
-                isActive ? `bg-[${colors.surface.card}] text-[${colors.brand.primary}]` : `bg-[${colors.surface.subtle}] text-[${colors.text.secondary}]`
-              }`}>
-                {badge}
-              </span>
-            )}
-          </button>
-        );
-      })}
-    </div>
-  );
+  return <Tabs tabs={tabs as any} active={active} onChange={onChange} className={className} />;
 }
 
 export interface SearchInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
@@ -495,8 +466,16 @@ export function TableCard({ title, subtitle, action, children, className = '' }:
   );
 }
 
-interface TabsProps {
-  tabs: { label: string; key: string; count?: number }[];
+export interface TabItem {
+  key: string;
+  label: string;
+  count?: number | string;
+  badge?: number | string;
+  icon?: string;
+}
+
+export interface TabsProps {
+  tabs: (TabItem | { label: string; key: string; count?: number | string; badge?: number | string; icon?: string } | string)[];
   active: string;
   onChange: (key: string) => void;
   className?: string;
@@ -504,27 +483,37 @@ interface TabsProps {
 
 export function Tabs({ tabs, active, onChange, className = '' }: TabsProps) {
   return (
-    <div className={`flex border-b border-[${colors.border.default}] gap-1 overflow-x-auto scrollbar-thin ${className}`}>
-      {tabs.map(tab => (
-        <button
-          key={tab.key}
-          onClick={() => onChange(tab.key)}
-          className={`flex items-center gap-2 px-4 py-2.5 text-[14px] font-semibold border-b-2 transition-colors whitespace-nowrap cursor-pointer ${
-            active === tab.key
-              ? `border-[${colors.brand.primary}] text-[${colors.brand.primary}]`
+    <div className={`flex border-b border-[${colors.border.default}] gap-2 overflow-x-auto scrollbar-thin ${className}`}>
+      {tabs.map(item => {
+        const key = typeof item === 'string' ? item : item.key;
+        const label = typeof item === 'string' ? item : item.label;
+        const count = typeof item === 'string' ? undefined : (item.count ?? (item as any).badge);
+        const icon = typeof item === 'string' ? undefined : (item as any).icon;
+        const isActive = active === key;
+
+        return (
+          <button
+            key={key}
+            type="button"
+            onClick={() => onChange(key)}
+            className={`flex items-center gap-2 px-4 py-3 text-[14px] font-semibold border-b-2 -mb-px transition-all whitespace-nowrap cursor-pointer ${isActive
+              ? `border-[${colors.brand.primary}] text-[${colors.brand.primary}] font-bold`
               : `border-transparent text-[${colors.text.secondary}] hover:text-[${colors.text.primary}] hover:border-[${colors.border.medium}]`
-          }`}
-        >
-          {tab.label}
-          {tab.count !== undefined && (
-            <span className={`px-1.5 py-0.5 text-[10px] rounded-full font-bold ${
-              active === tab.key ? `bg-[${colors.brand.goldLight}] text-[${colors.brand.primary}] border border-[${colors.brand.goldBorder}]` : `bg-[${colors.surface.subtle}] text-[${colors.text.secondary}]`
-            }`}>
-              {tab.count}
-            </span>
-          )}
-        </button>
-      ))}
+              }`}
+          >
+            {icon && <Icon name={icon as any} size={16} />}
+            <span>{label}</span>
+            {count !== undefined && (
+              <span className={`px-2 py-0.5 text-[10px] rounded-full font-bold ${isActive
+                ? `bg-[${colors.brand.goldLight}] text-[${colors.brand.primary}] border border-[${colors.brand.goldBorder}]`
+                : `bg-[${colors.surface.subtle}] text-[${colors.text.secondary}]`
+                }`}>
+                {count}
+              </span>
+            )}
+          </button>
+        );
+      })}
     </div>
   );
 }
@@ -730,9 +719,8 @@ function CustomDatePicker({ label, error, hint, required, className = '', value,
             e.stopPropagation();
             setOpen(prev => !prev);
           }}
-          className={`w-full h-10 px-3.5 text-[14px] rounded-xl border bg-[${colors.surface.card}] transition-colors flex items-center justify-between text-left outline-none cursor-pointer ${
-            error ? `border-[${colors.status.error.text}]` : `border-[${colors.border.medium}] hover:border-[${colors.brand.primary}]`
-          } ${disabled ? 'opacity-50 cursor-not-allowed' : ''} ${className}`}
+          className={`w-full h-10 px-3.5 text-[14px] rounded-xl border bg-[${colors.surface.card}] transition-colors flex items-center justify-between text-left outline-none cursor-pointer ${error ? `border-[${colors.status.error.text}]` : `border-[${colors.border.medium}] hover:border-[${colors.brand.primary}]`
+            } ${disabled ? 'opacity-50 cursor-not-allowed' : ''} ${className}`}
         >
           <span className={currentValue ? `text-[${colors.text.primary}] font-medium` : `text-[${colors.text.muted}]`}>
             {formatDateDisplay(currentValue)}
@@ -825,13 +813,12 @@ function CustomDatePicker({ label, error, hint, required, className = '', value,
                       e.stopPropagation();
                       handleSelectDate(dateStr);
                     }}
-                    className={`h-8 w-8 mx-auto rounded-xl flex items-center justify-center text-[12px] transition-all relative cursor-pointer ${
-                      isSelected
-                        ? `bg-[${colors.brand.navy}] text-white font-bold shadow-xs`
-                        : isToday
-                          ? `text-[${colors.brand.primary}] font-bold border border-[${colors.brand.goldBorder}] hover:bg-[${colors.brand.goldLight}]`
-                          : `text-[${colors.text.body}] hover:bg-[${colors.surface.hover}]`
-                    }`}
+                    className={`h-8 w-8 mx-auto rounded-xl flex items-center justify-center text-[12px] transition-all relative cursor-pointer ${isSelected
+                      ? `bg-[${colors.brand.navy}] text-white font-bold shadow-xs`
+                      : isToday
+                        ? `text-[${colors.brand.primary}] font-bold border border-[${colors.brand.goldBorder}] hover:bg-[${colors.brand.goldLight}]`
+                        : `text-[${colors.text.body}] hover:bg-[${colors.surface.hover}]`
+                      }`}
                   >
                     <span>{day}</span>
                   </button>
@@ -925,10 +912,9 @@ export function Input({ label, error, hint, required, className = '', type, valu
         }}
         placeholder={placeholder}
         disabled={disabled}
-        className={`w-full h-10 px-3.5 text-[14px] rounded-xl border bg-white transition-colors outline-none focus:outline-none focus:ring-0 placeholder:text-[${colors.text.muted}] ${
-          error ? `border-[${colors.status.error.text}] focus:border-[${colors.status.error.dark}]`
-                : `border-[${colors.border.medium}] focus:border-[${colors.brand.primary}]`
-        } ${className}`}
+        className={`w-full h-10 px-3.5 text-[14px] rounded-xl border bg-white transition-colors outline-none focus:outline-none focus:ring-0 placeholder:text-[${colors.text.muted}] ${error ? `border-[${colors.status.error.text}] focus:border-[${colors.status.error.dark}]`
+          : `border-[${colors.border.medium}] focus:border-[${colors.brand.primary}]`
+          } ${className}`}
         {...props}
       />
       {hint && !error && <p className={`text-[12px] text-[${colors.text.secondary}] mt-1`}>{hint}</p>}
@@ -953,9 +939,8 @@ export function Select({ label, error, required, options, className = '', ...pro
         </label>
       )}
       <select
-        className={`w-full h-10 px-3.5 text-[14px] rounded-xl border bg-white transition-colors appearance-none cursor-pointer outline-none focus:outline-none focus:ring-0 ${
-          error ? `border-[${colors.status.error.text}] focus:border-[${colors.status.error.dark}]` : `border-[${colors.border.medium}] focus:border-[${colors.brand.primary}]`
-        } ${className}`}
+        className={`w-full h-10 px-3.5 text-[14px] rounded-xl border bg-white transition-colors appearance-none cursor-pointer outline-none focus:outline-none focus:ring-0 ${error ? `border-[${colors.status.error.text}] focus:border-[${colors.status.error.dark}]` : `border-[${colors.border.medium}] focus:border-[${colors.brand.primary}]`
+          } ${className}`}
         style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2210%22 height=%226%22 fill=%22none%22%3E%3Cpath d=%22M1 1l4 4 4-4%22 stroke=%22%2394a3b8%22 stroke-width=%221.5%22 stroke-linecap=%22round%22/%3E%3C/svg%3E")', backgroundRepeat: 'no-repeat', backgroundPosition: 'right 12px center', paddingRight: '32px' }}
         {...props}
       >
@@ -981,9 +966,8 @@ export function Textarea({ label, error, required, className = '', ...props }: T
         </label>
       )}
       <textarea
-        className={`w-full px-3.5 py-2.5 text-[14px] rounded-xl border bg-white transition-colors placeholder:text-[${colors.text.muted}] resize-y outline-none focus:outline-none focus:ring-0 ${
-          error ? `border-[${colors.status.error.text}] focus:border-[${colors.status.error.dark}]` : `border-[${colors.border.medium}] focus:border-[${colors.brand.primary}]`
-        } ${className}`}
+        className={`w-full px-3.5 py-2.5 text-[14px] rounded-xl border bg-white transition-colors placeholder:text-[${colors.text.muted}] resize-y outline-none focus:outline-none focus:ring-0 ${error ? `border-[${colors.status.error.text}] focus:border-[${colors.status.error.dark}]` : `border-[${colors.border.medium}] focus:border-[${colors.brand.primary}]`
+          } ${className}`}
         {...props}
       />
       {error && <p className={`text-[12px] text-[${colors.status.error.text}] mt-1`}>{error}</p>}

@@ -446,22 +446,26 @@ function Profile({ student }: { student: typeof students[0] }) {
         </div>
       </div>
 
-      {/* Main Profile Hub Card - Full Width Clean Container (Left sidebar containers merged into tabs) */}
-      <Card className="!p-0 overflow-hidden shadow-sm border border-slate-200/90 w-full">
-        {/* Custom Interactive Tab Headers - Light, Refined Enterprise Styling */}
-        <div className="flex items-center gap-1.5 p-2.5 bg-slate-50/80 border-b border-slate-200/80 overflow-x-auto scrollbar-thin">
-          {tabs.map(t => (
-            <button
-              key={t.key}
-              onClick={() => setTab(t.key)}
-              className={`px-4 py-2.5 rounded-xl text-[12px] font-semibold whitespace-nowrap transition-all duration-150 cursor-pointer ${tab === t.key
-                ? 'bg-white text-[#7C612A] shadow-xs border border-slate-200/90 font-bold'
-                : 'text-slate-600 hover:text-slate-900 hover:bg-white/60'
-                }`}
-            >
-              <span>{t.label}</span>
-            </button>
-          ))}
+      {/* Main Profile Hub Card - Full Width Clean Container */}
+      <Card className="!p-0 overflow-hidden shadow-sm border border-[#E2E8F0] w-full">
+        {/* Header Tab Menu matching Image 2 layout */}
+        <div className="flex border-b border-[#E2E8F0] px-5 pt-1 gap-2 overflow-x-thin bg-white">
+          {tabs.map(t => {
+            const isActive = tab === t.key;
+            return (
+              <button
+                key={t.key}
+                type="button"
+                onClick={() => setTab(t.key)}
+                className={`flex items-center gap-2 px-4 py-3 text-[14px] font-semibold border-b-2 -mb-px transition-all whitespace-nowrap cursor-pointer ${isActive
+                  ? 'border-[#7C612A] text-[#7C612A] font-bold'
+                  : 'border-transparent text-[#64748B] hover:text-[#17153A] hover:border-[#CBD5E1]'
+                  }`}
+              >
+                <span>{t.label}</span>
+              </button>
+            );
+          })}
         </div>
 
         {/* Tab Panes */}
@@ -5819,31 +5823,17 @@ function Exam() {
         </div>
       </div>
 
-      {/* Clean Segmented Tab Navigation */}
-      <div className="flex items-center gap-2 border-b border-[#E2E8F0] pb-2 overflow-x-auto scrollbar-thin">
-        {[
+      {/* Clean Segmented Tab Navigation matching Image 2 layout */}
+      <Tabs
+        tabs={[
           { key: 'schedule', label: 'Exam Schedule', icon: 'solar:calendar-date-linear' },
           { key: 'syllabus', label: 'Syllabus', icon: 'solar:book-bookmark-linear' },
           { key: 'results', label: 'Results & Report Card', icon: 'solar:cup-first-linear' },
           { key: 'history', label: 'Past Standards History', icon: 'solar:history-linear' },
-        ].map(t => {
-          const isActive = tab === t.key;
-          return (
-            <button
-              key={t.key}
-              type="button"
-              onClick={() => setTab(t.key as any)}
-              className={`flex items-center gap-2 px-4 py-2 rounded-xl text-[14px] font-semibold whitespace-nowrap transition-all cursor-pointer ${isActive
-                ? 'bg-[#17153A] text-white shadow-2xs'
-                : 'text-[#64748B] hover:text-[#17153A] hover:bg-[#F8FAFC]'
-                }`}
-            >
-              <Icon name={t.icon} size={16} />
-              <span>{t.label}</span>
-            </button>
-          );
-        })}
-      </div>
+        ]}
+        active={tab}
+        onChange={setTab as any}
+      />
 
       {/* ==================== TAB 1: EXAM SCHEDULE ==================== */}
       {tab === 'schedule' && (
@@ -7082,58 +7072,14 @@ function Helpdesk() {
         </div>
       </div>
 
-      {/* Navigation Tab Bar adhering directly to Section 3.3 Services */}
-      <div className="flex items-center gap-1.5 overflow-x-auto scrollbar-thin">
-        {tabsConfig.map(t => {
-          const isActive = tab === t.key;
-          return (
-            <button
-              key={t.key}
-              type="button"
-              onClick={() => setTab(t.key)}
-              className={`flex items-center gap-2 px-4 py-2 rounded-xl text-[12px] font-semibold transition-all duration-150 whitespace-nowrap cursor-pointer shrink-0 ${isActive
-                ? 'bg-white text-[#7C612A] shadow-xs border border-[#E2E8F0] font-bold'
-                : 'text-[#64748B] hover:text-[#17153A] hover:bg-[#F8FAFC]'
-                }`}
-            >
-              <span>{t.label}</span>
-              {t.count !== undefined && (
-                <span
-                  className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${isActive
-                    ? 'bg-[#7C612A] text-white'
-                    : 'bg-[#F1F5F9] text-[#64748B]'
-                    }`}
-                >
-                  {t.count}
-                </span>
-              )}
-            </button>
-          );
-        })}
-      </div>
+      {/* Navigation Tab Bar matching Image 2 layout */}
+      <Tabs tabs={tabsConfig as any} active={tab} onChange={(val) => setTab(val as typeof tab)} />
 
       {/* Redesigned Executive Service Action Hero Card */}
-      <div className="bg-[#FFFFFF] rounded-2xl border border-[#E2E8F0] p-5 sm:p-6 shadow-[0_2px_12px_#00000006] transition-all">
+      <div className="sm:p-6 transition-all">
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-5">
           {/* Service Info & Requirement Text */}
-          <div className="flex items-start gap-4">
-            <div className="w-12 h-12 rounded-2xl bg-[#FAF7F2] border border-[#E8DFC8] text-[#7C612A] flex items-center justify-center shrink-0 shadow-2xs">
-              <Icon name={activeServiceMeta.icon} size={22} />
-            </div>
-            <div className="space-y-1">
-              <div className="flex items-center gap-2 flex-wrap">
-                <span className="text-[10px] font-bold tracking-wider uppercase px-2.5 py-0.5 rounded-full bg-[#FAF7F2] text-[#7C612A] border border-[#E8DFC8]">
-                  {activeServiceMeta.badge}
-                </span>
-              </div>
-              <h2 className="text-[18px] sm:text-[20px] font-bold text-[#17153A] tracking-tight">
-                {activeServiceMeta.title}
-              </h2>
-              <p className="text-[14px] text-[#475569] leading-relaxed max-w-2xl">
-                {activeServiceMeta.description}
-              </p>
-            </div>
-          </div>
+
 
           {/* Action Button */}
           {activeServiceMeta.actionText && activeServiceMeta.onAction && (
@@ -7143,29 +7089,11 @@ function Helpdesk() {
                 onClick={activeServiceMeta.onAction}
                 className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl text-[14px] font-semibold text-white bg-[#7C612A] hover:bg-[#560110] active:bg-[#40000B] transition-all duration-200 shadow-sm hover:shadow-md cursor-pointer whitespace-nowrap"
               >
-                <Icon name="solar:add-circle-linear" size={17} />
+                {/* <Icon name="solar:add-circle-linear" size={17} /> */}
                 <span>{activeServiceMeta.actionText}</span>
               </button>
             </div>
           )}
-        </div>
-
-        {/* Live Metrics Row inside Action Card */}
-        <div className="mt-5 pt-4 border-t border-[#F1F5F9] flex flex-wrap items-center justify-between gap-3 text-[12px]">
-          <div className="flex items-center gap-3 sm:gap-4 flex-wrap">
-            {activeServiceMeta.stats.map((st, i) => (
-              <div key={i} className="flex items-center gap-2 bg-[#F8FAFC] px-3 py-1.5 rounded-xl border border-[#E2E8F0]">
-                <span className="text-[#64748B] font-medium">{st.label}:</span>
-                <span className="font-bold text-[14px]" style={{ color: st.color }}>
-                  {st.value}
-                </span>
-              </div>
-            ))}
-          </div>
-          <div className="flex items-center gap-1.5 text-[#64748B] text-[12px]">
-            <Icon name="solar:shield-check-linear" size={14} className="text-[#15803D]" />
-            <span>Sadvidhya School ERP &bull; Verified Parent Services</span>
-          </div>
         </div>
       </div>
 
@@ -8230,37 +8158,6 @@ function Helpdesk() {
       {/* Tab 6: Confirmation (Respond to school confirmation requests as per requirement 3.3) */}
       {tab === 'confirmation' && (
         <div className="space-y-4">
-          {/* Table Search & Status Filter Toolbar */}
-          <div className="bg-[#FFFFFF] rounded-2xl border border-[#E2E8F0] p-3 shadow-[0_2px_8px_#00000004] flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-            <div className="relative flex-1 max-w-md">
-              <Icon name="solar:magnifer-linear" size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#94A3B8]" />
-              <input
-                type="text"
-                value={confirmSearch}
-                onChange={e => setConfirmSearch(e.target.value)}
-                placeholder="Search consent requests, events, or dates..."
-                className="w-full h-9 pl-10 pr-4 text-[14px] bg-[#F8FAFC] border border-[#E2E8F0] rounded-xl text-[#17153A] placeholder-[#94A3B8] focus:border-[#7C612A] focus:bg-white outline-none transition-all"
-              />
-            </div>
-
-            <div className="flex items-center gap-1.5 overflow-x-auto scrollbar-thin">
-              <span className="text-[12px] font-bold text-[#64748B] uppercase px-1 hidden sm:inline">Filter:</span>
-              {(['all', 'pending', 'submitted'] as const).map(f => (
-                <button
-                  key={f}
-                  type="button"
-                  onClick={() => setConfirmFilter(f)}
-                  className={`px-3 py-1.5 rounded-xl text-[12px] font-semibold transition-all cursor-pointer whitespace-nowrap ${confirmFilter === f
-                    ? 'bg-[#17153A] text-white shadow-2xs'
-                    : 'bg-[#F8FAFC] text-[#64748B] hover:text-[#17153A] border border-[#E2E8F0]'
-                    }`}
-                >
-                  {f === 'all' ? 'All Requests' : f === 'pending' ? 'Action Required' : 'Submitted'}
-                </button>
-              ))}
-            </div>
-          </div>
-
           <div className="space-y-3">
             {filteredConfirmList.length === 0 ? (
               <div className="bg-white rounded-2xl border border-[#E2E8F0] p-8 text-center text-[#64748B] text-[14px]">
