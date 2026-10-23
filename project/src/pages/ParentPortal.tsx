@@ -131,7 +131,7 @@ function Dashboard({ student }: { student: typeof students[0] }) {
     <div className="animate-fade-in">
       {/* Student Welcome Card - World-Class Professional ERP Header */}
       <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-5 sm:p-6 mb-6 transition-all duration-200">
-        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-5">
+        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-0">
           {/* Left: Avatar + Details */}
           <div className="flex items-center gap-4 sm:gap-5">
             {/* Student Portrait - Square */}
@@ -327,7 +327,7 @@ function Dashboard({ student }: { student: typeof students[0] }) {
           </div>
         </Card>
       </div>
-    </div>
+    </div >
   );
 }
 
@@ -5813,10 +5813,10 @@ function Exam() {
       {/* Clean Segmented Tab Navigation matching Image 2 layout */}
       <Tabs
         tabs={[
-          { key: 'schedule', label: 'Exam Schedule', icon: 'solar:calendar-date-linear' },
-          { key: 'syllabus', label: 'Syllabus', icon: 'solar:book-bookmark-linear' },
-          { key: 'results', label: 'Results & Report Card', icon: 'solar:cup-first-linear' },
-          { key: 'history', label: 'Past Standards History', icon: 'solar:history-linear' },
+          { key: 'schedule', label: 'Exam Schedule' },
+          { key: 'syllabus', label: 'Syllabus' },
+          { key: 'results', label: 'Results & Report Card' },
+          { key: 'history', label: 'Past Standards History' },
         ]}
         active={tab}
         onChange={setTab as any}
@@ -6954,12 +6954,12 @@ function Helpdesk() {
 
   // Requirement Services Configuration from Section 3.3
   const tabsConfig = [
-    { key: 'gatepass', label: 'Student Pickup', icon: 'solar:card-2-linear', count: passList.length },
-    { key: 'appointment', label: 'Book Appointment', icon: 'solar:calendar-date-linear', count: apptList.length },
-    { key: 'certificate', label: 'Apply for Certificate', icon: 'solar:document-text-linear', count: certList.length },
-    { key: 'infirmary', label: 'Infirmary', icon: 'solar:heart-pulse-linear', count: infirmaryList.length },
-    { key: 'ptm', label: 'PTM', icon: 'solar:users-group-rounded-linear', count: ptmList.length },
-    { key: 'confirmation', label: 'Confirmation', icon: 'solar:check-circle-linear', count: confirmList.filter(c => c.status === 'pending').length },
+    { key: 'gatepass', label: 'Student Pickup', count: passList.length },
+    { key: 'appointment', label: 'Book Appointment', count: apptList.length },
+    { key: 'certificate', label: 'Apply for Certificate', count: certList.length },
+    { key: 'infirmary', label: 'Infirmary', count: infirmaryList.length },
+    { key: 'ptm', label: 'PTM', count: ptmList.length },
+    { key: 'confirmation', label: 'Confirmation', count: confirmList.filter(c => c.status === 'pending').length },
   ] as const;
 
   // Active Tab Metadata from Requirement 3.3
@@ -7056,27 +7056,14 @@ function Helpdesk() {
               Helpdesk
             </h1>
           </div>
-        </div>
-      </div>
-
-      {/* Navigation Tab Bar matching Image 2 layout */}
-      <Tabs tabs={tabsConfig as any} active={tab} onChange={(val) => setTab(val as typeof tab)} />
-
-      {/* Redesigned Executive Service Action Hero Card */}
-      <div className="sm:p-6 transition-all">
-        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-5">
-          {/* Service Info & Requirement Text */}
-
-
-          {/* Action Button */}
           {activeServiceMeta.actionText && activeServiceMeta.onAction && (
-            <div className="shrink-0 self-start lg:self-center">
+            <div className="shrink-0 self-start sm:self-auto">
               <button
                 type="button"
                 onClick={activeServiceMeta.onAction}
-                className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl text-[14px] font-semibold text-white bg-[#7C612A] hover:bg-[#560110] active:bg-[#40000B] transition-all duration-200 shadow-sm hover:shadow-md cursor-pointer whitespace-nowrap"
+                className="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-xl text-[13px] font-semibold text-white bg-[#7C612A] hover:bg-[#560110] active:bg-[#40000B] transition-all duration-200 shadow-sm hover:shadow-md cursor-pointer whitespace-nowrap"
               >
-                <Icon name="solar:add-circle-linear" size={17} />
+                <Icon name="solar:add-circle-linear" size={16} />
                 <span>{activeServiceMeta.actionText}</span>
               </button>
             </div>
@@ -7084,40 +7071,12 @@ function Helpdesk() {
         </div>
       </div>
 
+      {/* Navigation Tab Bar matching Image 2 layout */}
+      <Tabs tabs={tabsConfig as any} active={tab} onChange={(val) => setTab(val as typeof tab)} />
+
       {/* Tab 1: Student Pickup (Gate Pass) */}
       {tab === 'gatepass' && (
         <div className="space-y-4">
-          {/* Table Search & Status Filter Toolbar */}
-          <div className="bg-[#FFFFFF] rounded-2xl border border-[#E2E8F0] p-3 shadow-[0_2px_8px_#00000004] flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-            <div className="relative flex-1 max-w-md">
-              <Icon name="solar:magnifer-linear" size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#94A3B8]" />
-              <input
-                type="text"
-                value={gateSearch}
-                onChange={e => setGateSearch(e.target.value)}
-                placeholder="Search visitor name, date, or reason..."
-                className="w-full h-9 pl-10 pr-4 text-[14px] bg-[#F8FAFC] border border-[#E2E8F0] rounded-xl text-[#17153A] placeholder-[#94A3B8] focus:border-[#7C612A] focus:bg-white outline-none transition-all"
-              />
-            </div>
-
-            <div className="flex items-center gap-1.5 overflow-x-auto scrollbar-thin">
-              <span className="text-[12px] font-bold text-[#64748B] uppercase px-1 hidden sm:inline">Filter:</span>
-              {(['all', 'approved', 'pending'] as const).map(f => (
-                <button
-                  key={f}
-                  type="button"
-                  onClick={() => setGateFilter(f)}
-                  className={`px-3 py-1.5 rounded-xl text-[12px] font-semibold transition-all cursor-pointer whitespace-nowrap ${gateFilter === f
-                    ? 'bg-[#17153A] text-white shadow-2xs'
-                    : 'bg-[#F8FAFC] text-[#64748B] hover:text-[#17153A] border border-[#E2E8F0]'
-                    }`}
-                >
-                  {f === 'all' ? 'All Passes' : f === 'approved' ? 'Approved' : 'Pending Approval'}
-                </button>
-              ))}
-            </div>
-          </div>
-
           {/* Clean Gate Pass Table */}
           <div className="bg-[#FFFFFF] rounded-2xl border border-[#E2E8F0] shadow-card-soft overflow-hidden">
             <div className="overflow-x-auto">
@@ -7446,36 +7405,6 @@ function Helpdesk() {
       {/* Tab 2: Book Appointment */}
       {tab === 'appointment' && (
         <div className="space-y-4">
-          {/* Table Search & Filter Toolbar */}
-          <div className="bg-[#FFFFFF] rounded-2xl border border-[#E2E8F0] p-3 shadow-[0_2px_8px_#00000004] flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-            <div className="relative flex-1 max-w-md">
-              <Icon name="solar:magnifer-linear" size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#94A3B8]" />
-              <input
-                type="text"
-                value={apptSearch}
-                onChange={e => setApptSearch(e.target.value)}
-                placeholder="Search teacher, office, or meeting type..."
-                className="w-full h-9 pl-10 pr-4 text-[14px] bg-[#F8FAFC] border border-[#E2E8F0] rounded-xl text-[#17153A] placeholder-[#94A3B8] focus:border-[#7C612A] focus:bg-white outline-none transition-all"
-              />
-            </div>
-
-            <div className="flex items-center gap-1.5 overflow-x-auto scrollbar-thin">
-              <span className="text-[12px] font-bold text-[#64748B] uppercase px-1 hidden sm:inline">Filter:</span>
-              {(['all', 'approved', 'pending', 'completed'] as const).map(f => (
-                <button
-                  key={f}
-                  type="button"
-                  onClick={() => setApptFilter(f)}
-                  className={`px-3 py-1.5 rounded-xl text-[12px] font-semibold transition-all cursor-pointer whitespace-nowrap ${apptFilter === f
-                    ? 'bg-[#17153A] text-white shadow-2xs'
-                    : 'bg-[#F8FAFC] text-[#64748B] hover:text-[#17153A] border border-[#E2E8F0]'
-                    }`}
-                >
-                  {f === 'all' ? 'All' : f === 'approved' ? 'Approved' : f === 'pending' ? 'Pending' : 'Completed'}
-                </button>
-              ))}
-            </div>
-          </div>
 
           {/* Clean Appointment Table */}
           <div className="bg-[#FFFFFF] rounded-2xl border border-[#E2E8F0] shadow-card-soft overflow-hidden">
@@ -7690,37 +7619,6 @@ function Helpdesk() {
       {/* Tab 3: Apply for Certificate */}
       {tab === 'certificate' && (
         <div className="space-y-4">
-          {/* Table Search & Filter Toolbar */}
-          <div className="bg-[#FFFFFF] rounded-2xl border border-[#E2E8F0] p-3 shadow-[0_2px_8px_#00000004] flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-            <div className="relative flex-1 max-w-md">
-              <Icon name="solar:magnifer-linear" size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#94A3B8]" />
-              <input
-                type="text"
-                value={certSearch}
-                onChange={e => setCertSearch(e.target.value)}
-                placeholder="Search certificate type, reason, or date..."
-                className="w-full h-9 pl-10 pr-4 text-[14px] bg-[#F8FAFC] border border-[#E2E8F0] rounded-xl text-[#17153A] placeholder-[#94A3B8] focus:border-[#7C612A] focus:bg-white outline-none transition-all"
-              />
-            </div>
-
-            <div className="flex items-center gap-1.5 overflow-x-auto scrollbar-thin">
-              <span className="text-[12px] font-bold text-[#64748B] uppercase px-1 hidden sm:inline">Filter:</span>
-              {(['all', 'issued', 'pending'] as const).map(f => (
-                <button
-                  key={f}
-                  type="button"
-                  onClick={() => setCertFilter(f)}
-                  className={`px-3 py-1.5 rounded-xl text-[12px] font-semibold transition-all cursor-pointer whitespace-nowrap ${certFilter === f
-                    ? 'bg-[#17153A] text-white shadow-2xs'
-                    : 'bg-[#F8FAFC] text-[#64748B] hover:text-[#17153A] border border-[#E2E8F0]'
-                    }`}
-                >
-                  {f === 'all' ? 'All Applications' : f === 'issued' ? 'Issued (Download)' : 'Pending'}
-                </button>
-              ))}
-            </div>
-          </div>
-
           {/* Clean Certificate Table */}
           <div className="bg-[#FFFFFF] rounded-2xl border border-[#E2E8F0] shadow-card-soft overflow-hidden">
             <div className="overflow-x-auto">
@@ -7893,36 +7791,6 @@ function Helpdesk() {
       {/* Tab 4: Infirmary (View child's infirmary visit history, with filter as per requirement 3.3) */}
       {tab === 'infirmary' && (
         <div className="space-y-4">
-          {/* Table Search & Status Filter Toolbar */}
-          <div className="bg-[#FFFFFF] rounded-2xl border border-[#E2E8F0] p-3 shadow-[0_2px_8px_#00000004] flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-            <div className="relative flex-1 max-w-md">
-              <Icon name="solar:magnifer-linear" size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#94A3B8]" />
-              <input
-                type="text"
-                value={infirmarySearch}
-                onChange={e => setInfirmarySearch(e.target.value)}
-                placeholder="Search symptom, treatment, or date..."
-                className="w-full h-9 pl-10 pr-4 text-[14px] bg-[#F8FAFC] border border-[#E2E8F0] rounded-xl text-[#17153A] placeholder-[#94A3B8] focus:border-[#7C612A] focus:bg-white outline-none transition-all"
-              />
-            </div>
-
-            <div className="flex items-center gap-1.5 overflow-x-auto scrollbar-thin">
-              <span className="text-[12px] font-bold text-[#64748B] uppercase px-1 hidden sm:inline">Filter:</span>
-              {(['all', 'treated', 'sent-home'] as const).map(f => (
-                <button
-                  key={f}
-                  type="button"
-                  onClick={() => setInfirmaryFilter(f)}
-                  className={`px-3 py-1.5 rounded-xl text-[12px] font-semibold transition-all cursor-pointer whitespace-nowrap ${infirmaryFilter === f
-                    ? 'bg-[#17153A] text-white shadow-2xs'
-                    : 'bg-[#F8FAFC] text-[#64748B] hover:text-[#17153A] border border-[#E2E8F0]'
-                    }`}
-                >
-                  {f === 'all' ? 'All Visits' : f === 'treated' ? 'Treated' : 'Sent Home'}
-                </button>
-              ))}
-            </div>
-          </div>
 
           {/* Clean Infirmary Table */}
           <div className="bg-[#FFFFFF] rounded-2xl border border-[#E2E8F0] shadow-card-soft overflow-hidden">
@@ -8025,36 +7893,6 @@ function Helpdesk() {
       {/* Tab 5: PTM (one-time and recurring weekly with status as per requirement 3.3) */}
       {tab === 'ptm' && (
         <div className="space-y-4">
-          {/* Table Search & Status Filter Toolbar */}
-          <div className="bg-[#FFFFFF] rounded-2xl border border-[#E2E8F0] p-3 shadow-[0_2px_8px_#00000004] flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-            <div className="relative flex-1 max-w-md">
-              <Icon name="solar:magnifer-linear" size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#94A3B8]" />
-              <input
-                type="text"
-                value={ptmSearch}
-                onChange={e => setPtmSearch(e.target.value)}
-                placeholder="Search teacher, date, or time..."
-                className="w-full h-9 pl-10 pr-4 text-[14px] bg-[#F8FAFC] border border-[#E2E8F0] rounded-xl text-[#17153A] placeholder-[#94A3B8] focus:border-[#7C612A] focus:bg-white outline-none transition-all"
-              />
-            </div>
-
-            <div className="flex items-center gap-1.5 overflow-x-auto scrollbar-thin">
-              <span className="text-[12px] font-bold text-[#64748B] uppercase px-1 hidden sm:inline">Filter:</span>
-              {(['all', 'one-time', 'recurring'] as const).map(f => (
-                <button
-                  key={f}
-                  type="button"
-                  onClick={() => setPtmFilter(f)}
-                  className={`px-3 py-1.5 rounded-xl text-[12px] font-semibold transition-all cursor-pointer whitespace-nowrap ${ptmFilter === f
-                    ? 'bg-[#17153A] text-white shadow-2xs'
-                    : 'bg-[#F8FAFC] text-[#64748B] hover:text-[#17153A] border border-[#E2E8F0]'
-                    }`}
-                >
-                  {f === 'all' ? 'All Meetings' : f === 'one-time' ? 'One-time' : 'Recurring Weekly'}
-                </button>
-              ))}
-            </div>
-          </div>
 
           {/* Clean PTM Table */}
           <div className="bg-[#FFFFFF] rounded-2xl border border-[#E2E8F0] shadow-card-soft overflow-hidden">

@@ -496,12 +496,11 @@ export function Tabs({ tabs, active, onChange, className = '' }: TabsProps) {
             key={key}
             type="button"
             onClick={() => onChange(key)}
-            className={`flex items-center gap-2 px-4 py-3 text-[14px] font-semibold border-b-2 -mb-px transition-all whitespace-nowrap cursor-pointer ${isActive
+            className={`flex items-center gap-2 px-4 py-2.5 text-[14px] font-semibold border-b-2 -mb-px transition-all whitespace-nowrap cursor-pointer ${isActive
               ? `border-[${colors.brand.primary}] text-[${colors.brand.primary}] font-bold`
               : `border-transparent text-[${colors.text.secondary}] hover:text-[${colors.text.primary}] hover:border-[${colors.border.medium}]`
               }`}
           >
-            {icon && <Icon name={icon as any} size={16} />}
             <span>{label}</span>
             {count !== undefined && (
               <span className={`px-2 py-0.5 text-[10px] rounded-full font-bold ${isActive
