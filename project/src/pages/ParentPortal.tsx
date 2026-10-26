@@ -6968,7 +6968,7 @@ function Helpdesk() {
       title: 'Student Pickup Gate Pass',
       badge: 'Helpdesk Service 01',
       description: 'Request a gate pass: who is coming, their name, date, time and reason. Track approval status.',
-      actionText: '+ New Gate Pass',
+      actionText: 'New Gate Pass',
       icon: 'solar:card-2-linear',
       onAction: () => setShowGatePass(true),
       stats: [
@@ -6981,7 +6981,7 @@ function Helpdesk() {
       title: 'Book Appointment',
       badge: 'Helpdesk Service 02',
       description: 'Book a meeting with a teacher or the office and view appointment history.',
-      actionText: '+ Book Appointment',
+      actionText: 'Book Appointment',
       icon: 'solar:calendar-date-linear',
       onAction: () => setShowAppointment(true),
       stats: [
@@ -6995,7 +6995,7 @@ function Helpdesk() {
       title: 'Apply for Certificate',
       badge: 'Helpdesk Service 03',
       description: 'Apply for certificates such as bonafide or leaving certificate, track status and download when issued.',
-      actionText: '+ Apply for Certificate',
+      actionText: 'Apply for Certificate',
       icon: 'solar:document-text-linear',
       onAction: () => setShowCertificate(true),
       stats: [
@@ -7061,9 +7061,8 @@ function Helpdesk() {
               <button
                 type="button"
                 onClick={activeServiceMeta.onAction}
-                className="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-xl text-[13px] font-semibold text-white bg-[#7C612A] hover:bg-[#560110] active:bg-[#40000B] transition-all duration-200 shadow-sm hover:shadow-md cursor-pointer whitespace-nowrap"
+                className="inline-flex items-center justify-center px-4 py-2 rounded-xl text-[13px] font-semibold text-white bg-[#7C612A] hover:bg-[#560110] active:bg-[#40000B] transition-all duration-200 shadow-sm hover:shadow-md cursor-pointer whitespace-nowrap"
               >
-                <Icon name="solar:add-circle-linear" size={16} />
                 <span>{activeServiceMeta.actionText}</span>
               </button>
             </div>
@@ -7087,10 +7086,7 @@ function Helpdesk() {
                       Visitor
                     </th>
                     <th className="px-5 py-3.5 text-[12px] font-bold text-[#64748B] uppercase tracking-wider">
-                      Date
-                    </th>
-                    <th className="px-5 py-3.5 text-[12px] font-bold text-[#64748B] uppercase tracking-wider">
-                      Time
+                      Date & Time
                     </th>
                     <th className="px-5 py-3.5 text-[12px] font-bold text-[#64748B] uppercase tracking-wider">
                       Reason
@@ -7106,7 +7102,7 @@ function Helpdesk() {
                 <tbody className="divide-y divide-[#F1F5F9]">
                   {filteredPassList.length === 0 ? (
                     <tr>
-                      <td colSpan={6} className="px-5 py-8 text-center text-[#64748B] text-[14px]">
+                      <td colSpan={5} className="px-5 py-8 text-center text-[#64748B] text-[14px]">
                         No gate pass records found matching your filter criteria.
                       </td>
                     </tr>
@@ -7117,39 +7113,23 @@ function Helpdesk() {
                         <tr key={g.id} className="hover:bg-[#F8FAFC] transition-colors">
                           {/* Visitor */}
                           <td className="px-5 py-4">
-                            <div className="flex items-center gap-3">
-                              <div className="w-9 h-9 rounded-full bg-[#FAF7F2] border border-[#E8DFC8] text-[#7C612A] flex items-center justify-center font-bold text-[14px] shrink-0">
-                                <Icon name="solar:user-rounded-linear" size={17} />
-                              </div>
-                              <div>
-                                <div className="flex items-center gap-2">
-                                  <span className="font-semibold text-[#17153A] text-[14px]">
-                                    {parsed.name}
-                                  </span>
-                                  {parsed.relation && (
-                                    <span className="px-2 py-0.5 rounded-md text-[12px] font-medium bg-[#FAF7F2] text-[#7C612A] border border-[#E8DFC8]">
-                                      {parsed.relation}
-                                    </span>
-                                  )}
-                                </div>
-                              </div>
+                            <div className="flex items-center gap-2">
+                              <span className="font-semibold text-[#17153A] text-[14px]">
+                                {parsed.name}
+                              </span>
+                              {parsed.relation && (
+                                <span className="px-2 py-0.5 rounded-md text-[12px] font-medium bg-[#FAF7F2] text-[#7C612A] border border-[#E8DFC8]">
+                                  {parsed.relation}
+                                </span>
+                              )}
                             </div>
                           </td>
 
-                          {/* Date */}
+                          {/* Date & Time */}
                           <td className="px-5 py-4 whitespace-nowrap">
-                            <div className="flex items-center gap-2 text-[#334155] text-[12px] font-medium">
-                              <Icon name="solar:calendar-date-linear" size={15} className="text-[#7C612A] shrink-0" />
-                              <span>{g.date}</span>
-                            </div>
-                          </td>
-
-                          {/* Time */}
-                          <td className="px-5 py-4 whitespace-nowrap">
-                            <div className="flex items-center gap-2 text-[#475569] text-[12px] font-medium">
-                              <Icon name="solar:clock-circle-linear" size={15} className="text-[#64748B] shrink-0" />
-                              <span>{g.time}</span>
-                            </div>
+                            <span className="text-[13px] font-medium text-[#17153A]">
+                              {g.date} <span className="text-[#94A3B8] mx-1.5">&bull;</span> {g.time}
+                            </span>
                           </td>
 
                           {/* Reason */}
@@ -7186,9 +7166,8 @@ function Helpdesk() {
                             <button
                               type="button"
                               onClick={() => setSelectedPassSlip(g)}
-                              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-[12px] font-semibold text-[#17153A] bg-[#F8FAFC] border border-[#CBD5E1] hover:bg-[#FAF7F2] hover:border-[#7C612A] hover:text-[#7C612A] transition-all cursor-pointer"
+                              className="inline-flex items-center px-3 py-1.5 rounded-xl text-[12px] font-semibold text-[#17153A] bg-[#F8FAFC] border border-[#CBD5E1] hover:bg-[#FAF7F2] hover:border-[#7C612A] hover:text-[#7C612A] transition-all cursor-pointer"
                             >
-                              <Icon name="solar:ticket-linear" size={14} />
                               <span>View Pass</span>
                             </button>
                           </td>
@@ -7416,10 +7395,7 @@ function Helpdesk() {
                       Meeting With
                     </th>
                     <th className="px-5 py-3.5 text-[12px] font-bold text-[#64748B] uppercase tracking-wider">
-                      Date
-                    </th>
-                    <th className="px-5 py-3.5 text-[12px] font-bold text-[#64748B] uppercase tracking-wider">
-                      Time
+                      Date & Time
                     </th>
                     <th className="px-5 py-3.5 text-[12px] font-bold text-[#64748B] uppercase tracking-wider">
                       Type
@@ -7432,7 +7408,7 @@ function Helpdesk() {
                 <tbody className="divide-y divide-[#F1F5F9]">
                   {filteredApptList.length === 0 ? (
                     <tr>
-                      <td colSpan={5} className="px-5 py-8 text-center text-[#64748B] text-[14px]">
+                      <td colSpan={4} className="px-5 py-8 text-center text-[#64748B] text-[14px]">
                         No appointment records found matching your filter criteria.
                       </td>
                     </tr>
@@ -7447,8 +7423,8 @@ function Helpdesk() {
                               {parsed.isTeacher ? (
                                 <TeacherAvatar name={parsed.primary || a.withWhom} size={32} />
                               ) : (
-                                <div className="w-8 h-8 rounded-full bg-[#17153A] text-white flex items-center justify-center shrink-0">
-                                  <Icon name="solar:buildings-2-linear" size={15} />
+                                <div className="w-8 h-8 rounded-full bg-[#17153A] text-white flex items-center justify-center shrink-0 font-bold text-[11px]">
+                                  OFF
                                 </div>
                               )}
                               <div>
@@ -7462,20 +7438,11 @@ function Helpdesk() {
                             </div>
                           </td>
 
-                          {/* Date */}
+                          {/* Date & Time */}
                           <td className="px-5 py-4 whitespace-nowrap">
-                            <div className="flex items-center gap-2 text-[#334155] text-[12px] font-medium">
-                              <Icon name="solar:calendar-date-linear" size={15} className="text-[#7C612A] shrink-0" />
-                              <span>{a.date}</span>
-                            </div>
-                          </td>
-
-                          {/* Time */}
-                          <td className="px-5 py-4 whitespace-nowrap">
-                            <div className="flex items-center gap-2 text-[#475569] text-[12px] font-medium">
-                              <Icon name="solar:clock-circle-linear" size={15} className="text-[#64748B] shrink-0" />
-                              <span>{a.time}</span>
-                            </div>
+                            <span className="text-[13px] font-medium text-[#17153A]">
+                              {a.date} <span className="text-[#94A3B8] mx-1.5">&bull;</span> {a.time}
+                            </span>
                           </td>
 
                           {/* Type */}
@@ -7654,24 +7621,14 @@ function Helpdesk() {
                       <tr key={c.id} className="hover:bg-[#F8FAFC] transition-colors">
                         {/* Certificate Type */}
                         <td className="px-5 py-4">
-                          <div className="flex items-center gap-3">
-                            <div className="w-9 h-9 rounded-full bg-[#FAF7F2] border border-[#E8DFC8] text-[#7C612A] flex items-center justify-center shrink-0">
-                              <Icon name="solar:document-text-linear" size={17} />
-                            </div>
-                            <div>
-                              <span className="font-semibold text-[#17153A] text-[14px] capitalize block">
-                                {c.type === 'bonafide' ? 'Bonafide Certificate' : 'Leaving Certificate (LC)'}
-                              </span>
-                            </div>
-                          </div>
+                          <span className="font-semibold text-[#17153A] text-[14px] capitalize block">
+                            {c.type === 'bonafide' ? 'Bonafide Certificate' : 'Leaving Certificate (LC)'}
+                          </span>
                         </td>
 
                         {/* Applied Date */}
                         <td className="px-5 py-4 whitespace-nowrap">
-                          <div className="flex items-center gap-2 text-[#334155] text-[12px] font-medium">
-                            <Icon name="solar:calendar-date-linear" size={15} className="text-[#7C612A] shrink-0" />
-                            <span>{c.date}</span>
-                          </div>
+                          <span className="text-[13px] font-medium text-[#17153A]">{c.date}</span>
                         </td>
 
                         {/* Reason */}
@@ -7709,9 +7666,8 @@ function Helpdesk() {
                             <button
                               type="button"
                               onClick={() => showToast(`Downloading official ${c.type} certificate PDF...`, 'success')}
-                              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-[12px] font-semibold text-[#7C612A] bg-[#FAF7F2] border border-[#E8DFC8] hover:bg-[#7C612A] hover:text-white transition-all cursor-pointer shadow-2xs"
+                              className="inline-flex items-center px-3.5 py-1.5 rounded-xl text-[12px] font-semibold text-[#7C612A] bg-[#FAF7F2] border border-[#E8DFC8] hover:bg-[#7C612A] hover:text-white transition-all cursor-pointer shadow-2xs"
                             >
-                              <Icon name="solar:download-minimalistic-linear" size={14} />
                               <span>Download PDF</span>
                             </button>
                           ) : (
@@ -7799,10 +7755,7 @@ function Helpdesk() {
                 <thead>
                   <tr className="bg-[#F8FAFC] border-b border-[#E2E8F0]">
                     <th className="px-5 py-3.5 text-[12px] font-bold text-[#64748B] uppercase tracking-wider">
-                      Date
-                    </th>
-                    <th className="px-5 py-3.5 text-[12px] font-bold text-[#64748B] uppercase tracking-wider">
-                      Time In / Out
+                      Date & Time
                     </th>
                     <th className="px-5 py-3.5 text-[12px] font-bold text-[#64748B] uppercase tracking-wider">
                       Complaint
@@ -7818,39 +7771,25 @@ function Helpdesk() {
                 <tbody className="divide-y divide-[#F1F5F9]">
                   {filteredInfirmary.length === 0 ? (
                     <tr>
-                      <td colSpan={5} className="px-5 py-8 text-center text-[#64748B] text-[14px]">
+                      <td colSpan={4} className="px-5 py-8 text-center text-[#64748B] text-[14px]">
                         No infirmary visit records found matching your filter criteria.
                       </td>
                     </tr>
                   ) : (
                     filteredInfirmary.map(v => (
                       <tr key={v.id} className="hover:bg-[#F8FAFC] transition-colors">
-                        {/* Date */}
+                        {/* Date & Time */}
                         <td className="px-5 py-4 whitespace-nowrap">
-                          <div className="flex items-center gap-2 text-[#334155] text-[12px] font-medium">
-                            <Icon name="solar:calendar-date-linear" size={15} className="text-[#7C612A] shrink-0" />
-                            <span>{v.date}</span>
-                          </div>
-                        </td>
-
-                        {/* Time In / Out */}
-                        <td className="px-5 py-4 whitespace-nowrap">
-                          <div className="flex items-center gap-2 text-[#475569] text-[12px] font-medium">
-                            <Icon name="solar:clock-circle-linear" size={15} className="text-[#64748B] shrink-0" />
-                            <span>{v.timeIn} - {v.timeOut}</span>
-                          </div>
+                          <span className="text-[13px] font-medium text-[#17153A]">
+                            {v.date} <span className="text-[#94A3B8] mx-1.5">&bull;</span> {v.timeIn} - {v.timeOut}
+                          </span>
                         </td>
 
                         {/* Complaint */}
                         <td className="px-5 py-4">
-                          <div className="flex items-center gap-2">
-                            <div className="w-7 h-7 rounded-full bg-[#FAF7F2] text-[#7C612A] flex items-center justify-center shrink-0">
-                              <Icon name="solar:heart-pulse-linear" size={14} />
-                            </div>
-                            <span className="font-semibold text-[#17153A] text-[14px]">
-                              {v.complaint}
-                            </span>
-                          </div>
+                          <span className="font-semibold text-[#17153A] text-[14px]">
+                            {v.complaint}
+                          </span>
                         </td>
 
                         {/* Treatment & Remarks */}
@@ -7926,16 +7865,9 @@ function Helpdesk() {
                       <tr key={p.id} className="hover:bg-[#F8FAFC] transition-colors">
                         {/* Date & Time */}
                         <td className="px-5 py-4 whitespace-nowrap">
-                          <div className="space-y-1">
-                            <div className="flex items-center gap-2 text-[#334155] text-[12px] font-medium">
-                              <Icon name="solar:calendar-date-linear" size={15} className="text-[#7C612A] shrink-0" />
-                              <span>{p.date}</span>
-                            </div>
-                            <div className="flex items-center gap-2 text-[#64748B] text-[12px]">
-                              <Icon name="solar:clock-circle-linear" size={14} className="text-[#94A3B8] shrink-0" />
-                              <span>{p.time}</span>
-                            </div>
-                          </div>
+                          <span className="text-[13px] font-medium text-[#17153A]">
+                            {p.date} <span className="text-[#94A3B8] mx-1.5">&bull;</span> {p.time}
+                          </span>
                         </td>
 
                         {/* Teacher (Strict Teacher Avatar Rule) */}
@@ -8018,8 +7950,7 @@ function Helpdesk() {
                           )}
                         </div>
 
-                        <div className="flex items-center gap-2 text-[12px] text-[#64748B]">
-                          <Icon name="solar:calendar-date-linear" size={14} className="text-[#7C612A]" />
+                        <div className="text-[12px] text-[#64748B]">
                           <span>Issued Date: {c.date}</span>
                         </div>
 
@@ -8040,9 +7971,8 @@ function Helpdesk() {
                           <button
                             type="button"
                             onClick={() => handleConsentAction(c.id, 'submitted')}
-                            className="px-4 py-2 rounded-xl text-[14px] font-semibold text-white bg-[#15803D] hover:bg-[#166534] transition-colors shadow-sm cursor-pointer flex items-center gap-1.5"
+                            className="px-4 py-2 rounded-xl text-[14px] font-semibold text-white bg-[#15803D] hover:bg-[#166534] transition-colors shadow-sm cursor-pointer"
                           >
-                            <Icon name="solar:check-circle-linear" size={14} />
                             <span>Approve Consent</span>
                           </button>
                         </div>
