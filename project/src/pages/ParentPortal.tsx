@@ -10,6 +10,7 @@ import {
 import { Icon } from '@/components/Icon';
 import { Card, Badge, Button, Table, Tabs, EmptyState, Breadcrumb, Modal, Input, Select, Textarea, SectionHeader, showToast, TeacherAvatar, Avatar } from '@/components/ui';
 import { generateReceiptPdf } from '@/utils/receiptPdf';
+import { formatDateOnly, formatFullDateTime } from '@/utils/date';
 import {
   students, feeInstalments, paymentRecords, generateAttendance, timetable, weeklyTimetable,
   circulars, calendarEvents, examSchedule, examResults, subjects, learningOutcomes,
@@ -3661,7 +3662,7 @@ function Attendance({ student }: { student?: typeof students[0] }) {
       </div>
 
       {/* Top 4 Focused Stat Cards (Full Width 4-Column Grid) */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3.5 sm:gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5 sm:gap-4">
         {/* Total Present Days */}
         <div className="bg-white rounded-2xl border border-[#BBF7D0] p-4 sm:p-5 from-white via-white to-[#F0FDF4] shadow-[0_1px_3px_#00000006]">
           <div className="flex items-center justify-between">
@@ -5758,56 +5759,6 @@ function Exam() {
             )}
           </div>
         </div>
-
-        {/* Standard Selector & Hall Ticket / Archive Actions */}
-        <div className="flex items-center gap-2.5 flex-wrap">
-          {/* Standard History Dropdown Selector */}
-          <div className="relative">
-            <select
-              value={selectedStandardId}
-              onChange={e => {
-                setSelectedStandardId(e.target.value);
-                const s = standardsData[e.target.value];
-                if (s) {
-                  showToast(`Switched to ${s.standard} (${s.academicYear}) records`);
-                }
-              }}
-              className="appearance-none pl-3 pr-8 py-2 rounded-xl text-[12px] font-semibold bg-[#F8FAFC] border border-[#E2E8F0] text-[#17153A] hover:border-[#7C612A] focus:outline-none focus:ring-1 focus:ring-[#7C612A] cursor-pointer shadow-2xs"
-            >
-              <option value="class-8">Class 8-A (2026-27 · Current)</option>
-              <option value="class-7">Class 7-A (2025-26 · Previous)</option>
-              <option value="class-6">Class 6-B (2024-25 · Previous)</option>
-              <option value="class-5">Class 5-A (2023-24 · Previous)</option>
-            </select>
-            <div className="pointer-events-none absolute right-2.5 top-1/2 -translate-y-1/2 text-[#64748B]">
-              <Icon name="solar:alt-arrow-down-linear" size={14} />
-            </div>
-          </div>
-
-          {/* Action button */}
-          {currentStandard.isCurrent ? (
-            <button
-              type="button"
-              onClick={() => setHallTicketOpen(true)}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-[12px] font-semibold bg-[#7C612A] text-white hover:bg-[#560110] transition-colors cursor-pointer shadow-xs"
-            >
-              <Icon name="solar:diploma-linear" size={15} />
-              <span>Download Hall Ticket</span>
-            </button>
-          ) : (
-            <button
-              type="button"
-              onClick={() => {
-                setSelectedStandardId('class-8');
-                showToast('Switched to current Class 8-A session');
-              }}
-              className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-[12px] font-semibold bg-[#17153A] text-white hover:bg-[#7C612A] transition-colors cursor-pointer shadow-xs"
-            >
-              <Icon name="solar:restart-linear" size={14} />
-              <span>Return to Current (Class 8-A)</span>
-            </button>
-          )}
-        </div>
       </div>
 
       {/* Clean Segmented Tab Navigation matching Image 2 layout */}
@@ -5825,24 +5776,6 @@ function Exam() {
       {/* ==================== TAB 1: EXAM SCHEDULE ==================== */}
       {tab === 'schedule' && (
         <div className="space-y-4">
-          {/* Quick Info Bar for Current Standard */}
-          <div className="flex flex-wrap items-center justify-between gap-3 px-4 py-3 rounded-xl bg-[#FFFFF] border border-[#E2E8F0] text-[12px] text-[#475569]">
-            <div className="flex items-center gap-3.5 flex-wrap">
-              <span><strong>Standard:</strong> {currentStandard.standard} ({currentStandard.academicYear})</span>
-              <span className="text-[#CBD5E1]">·</span>
-              <span><strong>Total:</strong> {currentStandard.schedule.length} Papers</span>
-              <span className="text-[#CBD5E1]">·</span>
-              <span><strong>Exam Window:</strong> {currentStandard.examWindow}</span>
-              <span className="text-[#CBD5E1]">·</span>
-              <span><strong>Timing:</strong> {currentStandard.timing}</span>
-              <span className="text-[#CBD5E1]">·</span>
-              <span><strong>Venue:</strong> {currentStandard.venue}</span>
-            </div>
-            <div className="flex items-center gap-1.5 font-semibold text-[#059669]">
-              <Icon name="solar:check-circle-linear" size={14} />
-            </div>
-          </div>
-
           {/* Schedule Table */}
           <div className="bg-[#FFFFFF] rounded-2xl border border-[#E2E8F0] shadow-[0_2px_8px_#00000006] overflow-hidden">
             {/* Desktop Table Header */}
@@ -6157,19 +6090,6 @@ function Exam() {
       {/* ==================== TAB 4: PAST STANDARDS HISTORY ==================== */}
       {tab === 'history' && (
         <div className="space-y-4">
-          {/* Historical Summary Banner */}
-          <div className="p-4 sm:p-5 rounded-2xl bg-[#FFFFFF] border border-[#E2E8F0] shadow-[0_2px_8px_#00000006] flex flex-col md:flex-row md:items-center justify-between gap-3">
-            <div>
-              <h3 className="text-[16px] font-bold text-[#17153A]">Academic Progression Ledger (Previous Standards)</h3>
-              <p className="text-[12px] text-[#64748B] mt-0.5">
-                Complete record of past examinations, final term scores, and downloadable report cards.
-              </p>
-            </div>
-            <div className="flex items-center gap-2 text-[12px] font-semibold text-[#7C612A] bg-[#FDFBF7] px-3 py-1.5 rounded-xl border border-[#EBDCC1]">
-              <Icon name="solar:diploma-linear" size={15} />
-              <span>Overall Average: 86.6% · Distinction</span>
-            </div>
-          </div>
 
           {/* Historical Standards Table */}
           <div className="bg-[#FFFFFF] rounded-2xl border border-[#E2E8F0] shadow-[0_2px_8px_#00000006] overflow-hidden">
@@ -6517,53 +6437,167 @@ function Exam() {
 }
 
 function Discipline() {
+  const [tab, setTab] = useState<'all' | 'positive' | 'negative'>('all');
+
+  const filtered = tab === 'all' ? disciplineRecords : disciplineRecords.filter(d => d.type === tab);
+
+  const stats = {
+    all: disciplineRecords.length,
+    positive: disciplineRecords.filter(d => d.type === 'positive').length,
+    negative: disciplineRecords.filter(d => d.type === 'negative').length,
+  };
+
   return (
-    <div className="animate-fade-in">
-      <PageHeader title="Discipline" breadcrumbs={['Parent', 'Discipline']} />
+    <div className="animate-fade-in space-y-4">
+      <Breadcrumb items={['Parent Portal', 'Discipline']} />
+      <div>
+        <h1 className="text-[22px] sm:text-[24px] font-bold text-[#17153A] tracking-tight">
+          Discipline
+        </h1>
+      </div>
+
+      {/* Clean Tabs */}
+      <Tabs
+        tabs={[
+          { key: 'all', label: `All Records (${stats.all})` },
+          { key: 'positive', label: `Commendations (${stats.positive})` },
+          { key: 'negative', label: `Notices & Warnings (${stats.negative})` },
+        ]}
+        active={tab}
+        onChange={(val) => setTab(val as typeof tab)}
+      />
+
+      {/* Clean Discipline Records List */}
       <div className="space-y-3">
-        {disciplineRecords.map(d => (
-          <Card key={d.id}>
-            <div className="flex items-start gap-3">
-              <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ${d.type === 'positive' ? 'bg-success-50 text-success-600' : 'bg-error-50 text-error-600'}`}>
-                <Icon name={d.type === 'positive' ? 'ThumbsUp' : 'AlertTriangle'} size={18} />
-              </div>
-              <div className="flex-1">
-                <div className="flex items-center gap-2 mb-1">
-                  <Badge variant={d.type === 'positive' ? 'success' : 'error'} size="xs">{d.type}</Badge>
-                  <span className="text-[12px] text-ink-400">{d.date}</span>
+        {filtered.length > 0 ? (
+          filtered.map(d => {
+            const isPositive = d.type === 'positive';
+
+            return (
+              <div
+                key={d.id}
+                className="p-5 rounded-2xl bg-[#FFFFFF] border border-[#E2E8F0] shadow-card-soft hover:border-[#CBD5E1] transition-all"
+              >
+                <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
+                  <span className={`px-2.5 py-0.5 rounded-full text-[11px] font-bold border ${isPositive
+                    ? 'bg-[#F0FDF4] text-[#15803D] border-[#BBF7D0]'
+                    : 'bg-[#FFF1F2] text-[#BE123C] border-[#FECDD3]'
+                    }`}>
+                    {isPositive ? 'Positive Commendation' : 'Conduct Notice'}
+                  </span>
+
+                  {/* Date Only - Time is not needed for conduct history */}
+                  <span className="text-[12px] font-medium text-[#64748B]">
+                    Date: <strong className="text-[#17153A]">{formatDateOnly(d.date)}</strong>
+                  </span>
                 </div>
-                <p className="text-[14px] text-ink-700">{d.remark}</p>
-                <p className="text-[12px] text-ink-400 mt-1">Recorded by: {d.recordedBy}</p>
+
+                <p className="text-[14px] text-[#334155] leading-relaxed">
+                  {d.remark}
+                </p>
+
+                <div className="mt-4 pt-3 border-t border-[#F1F5F9] flex items-center gap-2.5">
+                  <TeacherAvatar name={d.recordedBy} size={26} />
+                  <span className="text-[12px] text-[#475569] font-medium">
+                    Recorded by: <strong className="text-[#17153A]">{d.recordedBy}</strong>
+                  </span>
+                </div>
               </div>
-            </div>
-          </Card>
-        ))}
+            );
+          })
+        ) : (
+          <EmptyState
+            icon={<Icon name="solar:shield-check-linear" size={28} />}
+            title="No Records Found"
+            description="No conduct or discipline records match the selected category."
+          />
+        )}
       </div>
     </div>
   );
 }
 
 function Activity() {
+  const [tab, setTab] = useState<'all' | 'Sports' | 'Academic' | 'Cultural'>('all');
+
+  const mentors: Record<string, string> = {
+    'Inter-School Cricket Tournament': 'Mr. Rohit Desai',
+    'Science Exhibition - Model on Solar Energy': 'Mrs. Deepika Nair',
+    'Annual Day - Group Dance Performance': 'Mrs. Sunita Sharma',
+    'Quiz Competition - General Knowledge': 'Mrs. Meera Iyer',
+  };
+
+  const filtered = tab === 'all' ? activityRecords : activityRecords.filter(a => a.type === tab);
+
   return (
-    <div className="animate-fade-in">
-      <PageHeader title="Activity" breadcrumbs={['Parent', 'Activity']} />
+    <div className="animate-fade-in space-y-4">
+      <Breadcrumb items={['Parent Portal', 'Activity']} />
+      <div>
+        <h1 className="text-[22px] sm:text-[24px] font-bold text-[#17153A] tracking-tight">
+          Activity
+        </h1>
+      </div>
+
+      {/* Clean Tabs */}
+      <Tabs
+        tabs={[
+          { key: 'all', label: 'All Activities' },
+          { key: 'Sports', label: 'Sports' },
+          { key: 'Academic', label: 'Academic' },
+          { key: 'Cultural', label: 'Cultural' },
+        ]}
+        active={tab}
+        onChange={(val) => setTab(val as typeof tab)}
+      />
+
+      {/* Clean Grid of Cards */}
       <div className="grid sm:grid-cols-2 gap-4">
-        {activityRecords.map(a => (
-          <Card key={a.id}>
-            <div className="flex items-start justify-between gap-3">
-              <div className="flex items-start gap-3">
-                <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ${a.type === 'Sports' ? 'bg-success-50 text-success-600' : a.type === 'Academic' ? 'bg-primary-50 text-primary-600' : 'bg-accent-50 text-accent-600'}`}>
-                  <Icon name={a.type === 'Sports' ? 'Trophy' : a.type === 'Academic' ? 'BookOpen' : 'Music'} size={18} />
+        {filtered.map(a => {
+          const mentor = mentors[a.title] || 'Faculty Coordinator';
+          const isGold = a.result.includes('First');
+          const isGreen = a.result.includes('Runner') || a.result.includes('Second');
+
+          return (
+            <div
+              key={a.id}
+              className="p-5 rounded-2xl bg-[#FFFFFF] border border-[#E2E8F0] shadow-card-soft hover:border-[#CBD5E1] transition-all flex flex-col justify-between"
+            >
+              <div>
+                <div className="flex items-center justify-between gap-2 mb-3">
+                  <span className="px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-[#FAF7F2] text-[#7C612A] border border-[#E8DFC8]">
+                    {a.type}
+                  </span>
+                  <span className={`px-2.5 py-0.5 rounded-full text-[12px] font-bold border ${isGold
+                    ? 'bg-[#FAF7F2] text-[#7C612A] border-[#E8DFC8]'
+                    : isGreen
+                      ? 'bg-[#F0FDF4] text-[#15803D] border-[#BBF7D0]'
+                      : 'bg-[#F8FAFC] text-[#475569] border-[#CBD5E1]'
+                    }`}>
+                    {a.result}
+                  </span>
                 </div>
-                <div>
-                  <p className="font-semibold text-ink-800 text-[14px]">{a.title}</p>
-                  <p className="text-[12px] text-ink-400 mt-0.5">{a.type} · {a.date}</p>
+
+                <h3 className="font-bold text-[#17153A] text-[15px] leading-snug">
+                  {a.title}
+                </h3>
+
+                {/* Date Only */}
+                <p className="text-[12px] text-[#64748B] font-medium mt-2">
+                  Date: <span className="text-[#17153A] font-semibold">{formatDateOnly(a.date)}</span>
+                </p>
+              </div>
+
+              <div className="mt-4 pt-3 border-t border-[#F1F5F9] flex items-center justify-between">
+                <div className="flex items-center gap-2.5">
+                  <TeacherAvatar name={mentor} size={26} />
+                  <span className="text-[12px] text-[#475569] font-medium">
+                    Mentor: <strong className="text-[#17153A]">{mentor}</strong>
+                  </span>
                 </div>
               </div>
-              <Badge variant={a.result.includes('First') || a.result.includes('Runner') ? 'success' : 'neutral'} size="xs">{a.result}</Badge>
             </div>
-          </Card>
-        ))}
+          );
+        })}
       </div>
     </div>
   );
@@ -6574,6 +6608,8 @@ function EventPage() {
   const today = new Date();
   const todayStr = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
 
+  const [tab, setTab] = useState<'upcoming' | 'past' | 'all'>('upcoming');
+
   const upcoming = calendarEvents
     .filter(e => e.type === 'event' && e.date >= todayStr)
     .sort((a, b) => a.date.localeCompare(b.date));
@@ -6582,118 +6618,163 @@ function EventPage() {
     .filter(e => e.type === 'event' && e.date < todayStr)
     .sort((a, b) => b.date.localeCompare(a.date));
 
-  return (
-    <div className="animate-fade-in space-y-6">
-      <PageHeader title="Event" breadcrumbs={['Parent Portal', 'Event']} />
-      <div className="space-y-6">
-        <div>
-          <h3 className="font-bold text-[16px] text-[#17153A] mb-3 flex items-center gap-2">
-            <Icon name="solar:cup-first-linear" size={17} className="text-[#059669]" />
-            <span>Upcoming School Events ({upcoming.length})</span>
-          </h3>
-          <div className="space-y-3">
-            {upcoming.length > 0 ? upcoming.map(e => {
-              const dateParts = e.date.split('-');
-              const dayNum = dateParts[2];
-              const monthName = shortMonths[parseInt(dateParts[1], 10) - 1] || 'Oct';
-              return (
-                <div key={e.id} className="p-4 rounded-2xl bg-[#FFFFFF] border border-[#E2E8F0] shadow-[0_2px_8px_#00000004] hover:border-[#CBD5E1] transition-all">
-                  <div className="flex items-center gap-4">
-                    <div className="w-14 h-14 rounded-xl bg-[#ECFDF5] text-[#065F46] border border-[#A7F3D0] flex flex-col items-center justify-center shrink-0">
-                      <span className="text-[18px] font-bold leading-none">{dayNum}</span>
-                      <span className="text-[12px] font-semibold leading-none mt-1 uppercase">{monthName}</span>
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-2">
-                        <p className="font-bold text-[#17153A] text-[14px] truncate">{e.title}</p>
-                        <span className="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-[#ECFDF5] text-[#059669] border border-[#A7F3D0]">
-                          Upcoming
-                        </span>
-                      </div>
-                      <p className="text-[12px] text-[#64748B] mt-0.5">
-                        {e.location || 'School Campus'} · {e.time || 'All Day Event'}
-                      </p>
-                      {e.description && (
-                        <p className="text-[12px] text-[#475569] mt-1 line-clamp-1">{e.description}</p>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              );
-            }) : <EmptyState icon={<Icon name="hugeicons:calendar-date-1" size={28} />} title="No Upcoming Events" />}
-          </div>
-        </div>
+  const displayedEvents = tab === 'upcoming' ? upcoming : tab === 'past' ? past : calendarEvents;
 
-        <div>
-          <h3 className="font-bold text-[16px] text-[#17153A] mb-3 flex items-center gap-2">
-            <Icon name="solar:history-linear" size={17} className="text-[#64748B]" />
-            <span>Completed Past Events ({past.length})</span>
-          </h3>
-          <div className="space-y-3">
-            {past.length > 0 ? past.map(e => {
-              const dateParts = e.date.split('-');
-              const dayNum = dateParts[2];
-              const monthName = shortMonths[parseInt(dateParts[1], 10) - 1] || 'Oct';
-              return (
-                <div key={e.id} className="p-4 rounded-2xl bg-[#FFFFFF] border border-[#E2E8F0] shadow-[0_2px_8px_#00000004] opacity-80">
-                  <div className="flex items-center gap-4">
-                    <div className="w-14 h-14 rounded-xl bg-[#F8FAFC] text-[#64748B] border border-[#E2E8F0] flex flex-col items-center justify-center shrink-0">
-                      <span className="text-[18px] font-bold leading-none">{dayNum}</span>
-                      <span className="text-[12px] font-semibold leading-none mt-1 uppercase">{monthName}</span>
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <p className="font-semibold text-[#17153A] text-[14px]">{e.title}</p>
-                      <p className="text-[12px] text-[#64748B] mt-0.5">
-                        {e.location || 'School Campus'} · Successfully Conducted
-                      </p>
-                    </div>
-                  </div>
+  return (
+    <div className="animate-fade-in space-y-4">
+      <Breadcrumb items={['Parent Portal', 'Events']} />
+      <div>
+        <h1 className="text-[22px] sm:text-[24px] font-bold text-[#17153A] tracking-tight">
+          Events
+        </h1>
+      </div>
+
+      {/* Clean Tabs */}
+      <Tabs
+        tabs={[
+          { key: 'upcoming', label: `Upcoming Events (${upcoming.length})` },
+          { key: 'past', label: `Past Events (${past.length})` },
+          { key: 'all', label: `All Events (${calendarEvents.length})` },
+        ]}
+        active={tab}
+        onChange={(val) => setTab(val as typeof tab)}
+      />
+
+      {/* Clean Event Cards */}
+      <div className="space-y-3">
+        {displayedEvents.length > 0 ? (
+          displayedEvents.map(e => {
+            const dateParts = e.date.split('-');
+            const dayNum = dateParts[2];
+            const monthName = shortMonths[parseInt(dateParts[1], 10) - 1] || 'Oct';
+            const isPast = e.date < todayStr;
+
+            return (
+              <div
+                key={e.id}
+                className="p-4 rounded-2xl bg-[#FFFFFF] border border-[#E2E8F0] shadow-card-soft hover:border-[#CBD5E1] transition-all flex flex-col sm:flex-row sm:items-center gap-4"
+              >
+                {/* Compact Date Tile */}
+                <div className={`w-14 h-14 rounded-xl flex flex-col items-center justify-center shrink-0 border ${isPast
+                  ? 'bg-[#F8FAFC] text-[#64748B] border-[#E2E8F0]'
+                  : 'bg-[#FAF7F2] text-[#7C612A] border-[#E8DFC8]'
+                  }`}>
+                  <span className="text-[18px] font-bold leading-none">{dayNum}</span>
+                  <span className="text-[11px] font-bold uppercase leading-none mt-1">{monthName}</span>
                 </div>
-              );
-            }) : <EmptyState icon={<Icon name="solar:history-linear" size={28} />} title="No Past Events" />}
-          </div>
-        </div>
+
+                {/* Details */}
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2">
+                    <h3 className="font-bold text-[#17153A] text-[15px] truncate">{e.title}</h3>
+                    <span className={`px-2 py-0.5 rounded-full text-[11px] font-medium border ${isPast
+                      ? 'bg-[#F8FAFC] text-[#64748B] border-[#CBD5E1]'
+                      : 'bg-[#ECFDF5] text-[#059669] border-[#A7F3D0]'
+                      }`}>
+                      {isPast ? 'Completed' : 'Upcoming'}
+                    </span>
+                  </div>
+
+                  <p className="text-[12px] text-[#64748B] font-medium mt-1">
+                    Date: <span className="text-[#17153A] font-semibold">{formatDateOnly(e.date)}</span>
+                    {e.time ? <> · Time: <span className="text-[#17153A] font-semibold">{e.time}</span></> : null}
+                    {' · '}{e.location || 'School Campus'}
+                  </p>
+
+                  {e.description && (
+                    <p className="text-[12px] text-[#475569] mt-1 line-clamp-1">{e.description}</p>
+                  )}
+
+                  {e.coordinator && (
+                    <div className="mt-2.5 flex items-center gap-2">
+                      <TeacherAvatar name={e.coordinator} size={22} />
+                      <span className="text-[12px] text-[#64748B]">
+                        Coordinator: <strong className="text-[#17153A]">{e.coordinator}</strong>
+                      </span>
+                    </div>
+                  )}
+                </div>
+              </div>
+            );
+          })
+        ) : (
+          <EmptyState icon={<Icon name="solar:calendar-date-linear" size={28} />} title="No Events Found" />
+        )}
       </div>
     </div>
   );
 }
 
 function Observation() {
-  const [tab, setTab] = useState('today');
+  const [tab, setTab] = useState<'today' | 'subject' | 'activity' | 'general'>('today');
   const filtered = observations.filter(o => o.tab === tab);
 
   return (
-    <div className="animate-fade-in">
-      <PageHeader title="Observation" breadcrumbs={['Parent', 'Observation']} />
+    <div className="animate-fade-in space-y-4">
+      <Breadcrumb items={['Parent Portal', 'Observation']} />
+      <div>
+        <h1 className="text-[22px] sm:text-[24px] font-bold text-[#17153A] tracking-tight">
+          Observations
+        </h1>
+      </div>
+
+      {/* Clean Tabs */}
       <Tabs
         tabs={[
-          { label: 'Today', key: 'today' },
-          { label: 'Subject', key: 'subject' },
-          { label: 'Activity', key: 'activity' },
-          { label: 'General', key: 'general' },
+          { key: 'today', label: 'Today' },
+          { key: 'subject', label: 'Subject' },
+          { key: 'activity', label: 'Activity' },
+          { key: 'general', label: 'General' },
         ]}
         active={tab}
-        onChange={setTab}
+        onChange={(val) => setTab(val as typeof tab)}
       />
-      <div className="mt-5 space-y-3">
-        {filtered.length > 0 ? filtered.map(o => (
-          <Card key={o.id}>
-            <div className="flex items-start gap-3">
-              <div className="w-10 h-10 rounded-xl bg-secondary-50 text-secondary-600 flex items-center justify-center shrink-0">
-                <Icon name="Eye" size={18} />
-              </div>
-              <div className="flex-1">
-                <div className="flex items-center gap-2 mb-1">
-                  {o.subject && <Badge variant="info" size="xs">{o.subject}</Badge>}
-                  <span className="text-[12px] text-ink-400">{o.date}</span>
+
+      {/* Clean Observations List */}
+      <div className="space-y-3">
+        {filtered.length > 0 ? (
+          filtered.map(o => (
+            <div
+              key={o.id}
+              className="p-5 rounded-2xl bg-[#FFFFFF] border border-[#E2E8F0] shadow-card-soft hover:border-[#CBD5E1] transition-all"
+            >
+              <div className="flex flex-wrap items-center justify-between gap-2 mb-2.5">
+                <div className="flex items-center gap-2">
+                  <TeacherAvatar name={o.recordedBy} size={28} />
+                  <div>
+                    <span className="text-[13px] font-bold text-[#17153A]">{o.recordedBy}</span>
+                    <span className="text-[11px] text-[#64748B] ml-2">Faculty Mentor</span>
+                  </div>
                 </div>
-                <p className="font-semibold text-ink-800 text-[14px]">{o.title}</p>
-                <p className="text-[14px] text-ink-500 mt-1">{o.content}</p>
-                <p className="text-[12px] text-ink-400 mt-1">By: {o.recordedBy}</p>
+
+                <div className="flex items-center gap-2">
+                  {o.subject && (
+                    <span className="px-2 py-0.5 rounded-md text-[11px] font-semibold bg-[#EFF6FF] text-[#1D4ED8] border border-[#BFDBFE]">
+                      {o.subject}
+                    </span>
+                  )}
+                  {/* Date Only */}
+                  <span className="text-[12px] font-medium text-[#64748B]">
+                    Date: <strong className="text-[#17153A]">{formatDateOnly(o.date)}</strong>
+                  </span>
+                </div>
               </div>
+
+              <h4 className="font-bold text-[#17153A] text-[14px] mb-1">
+                {o.title}
+              </h4>
+              <p className="text-[13px] text-[#475569] leading-relaxed">
+                {o.content}
+              </p>
             </div>
-          </Card>
-        )) : <EmptyState icon={<Icon name="Eye" size={28} />} title="No Observations" description="No observations have been recorded in this category." />}
+          ))
+        ) : (
+          <EmptyState
+            icon={<Icon name="solar:eye-linear" size={28} />}
+            title="No Observations"
+            description="No observations have been recorded in this category."
+          />
+        )}
       </div>
     </div>
   );
@@ -6701,56 +6782,106 @@ function Observation() {
 
 function Transport() {
   return (
-    <div className="animate-fade-in">
-      <PageHeader title="Transport" breadcrumbs={['Parent', 'Transport']} />
-      <div className="grid lg:grid-cols-3 gap-6">
-        <Card className="lg:col-span-1">
-          <SectionHeader title="Transport Details" />
-          <div className="space-y-4">
-            <InfoRow label="Route" value={transportInfo.route} />
-            <InfoRow label="Stop" value={transportInfo.stop} />
-            <InfoRow label="Vehicle No." value={transportInfo.vehicleNo} />
-            <InfoRow label="Driver" value={transportInfo.driverName} />
-            <InfoRow label="Driver Phone" value={transportInfo.driverPhone} />
-            <InfoRow label="Pickup Time" value={transportInfo.pickupTime} />
-            <InfoRow label="Drop Time" value={transportInfo.dropTime} />
-            <div className="pt-3 border-t border-ink-100">
-              <div className="flex justify-between items-center">
-                <span className="text-[14px] text-ink-500">Transport Fee (Annual)</span>
-                <span className="font-bold text-ink-900">₹{transportInfo.fee.toLocaleString('en-IN')}</span>
-              </div>
+    <div className="animate-fade-in space-y-4">
+      <Breadcrumb items={['Parent Portal', 'Transport']} />
+      <div>
+        <h1 className="text-[22px] sm:text-[24px] font-bold text-[#17153A] tracking-tight">
+          Transport
+        </h1>
+      </div>
+
+      <div className="grid lg:grid-cols-3 gap-5">
+        {/* Left Column: Transport Details */}
+        <div className="lg:col-span-1 bg-[#FFFFFF] rounded-2xl border border-[#E2E8F0] p-5 shadow-card-soft space-y-4">
+          <div className="border-b border-[#F1F5F9] pb-3">
+            <h3 className="font-bold text-[16px] text-[#17153A]">Transport Details</h3>
+            <p className="text-[12px] text-[#64748B]">Assigned bus route and driver info</p>
+          </div>
+
+          <div className="space-y-3">
+            <div className="flex justify-between items-center py-1.5 border-b border-[#F1F5F9] text-[13px]">
+              <span className="text-[#64748B]">Route:</span>
+              <strong className="text-[#17153A]">{transportInfo.route}</strong>
+            </div>
+            <div className="flex justify-between items-center py-1.5 border-b border-[#F1F5F9] text-[13px]">
+              <span className="text-[#64748B]">Designated Stop:</span>
+              <strong className="text-[#7C612A]">{transportInfo.stop}</strong>
+            </div>
+            <div className="flex justify-between items-center py-1.5 border-b border-[#F1F5F9] text-[13px]">
+              <span className="text-[#64748B]">Vehicle No:</span>
+              <strong className="text-[#17153A]">{transportInfo.vehicleNo}</strong>
+            </div>
+            <div className="flex justify-between items-center py-1.5 border-b border-[#F1F5F9] text-[13px]">
+              <span className="text-[#64748B]">Driver Name:</span>
+              <strong className="text-[#17153A]">{transportInfo.driverName}</strong>
+            </div>
+            <div className="flex justify-between items-center py-1.5 border-b border-[#F1F5F9] text-[13px]">
+              <span className="text-[#64748B]">Driver Phone:</span>
+              <strong className="text-[#17153A]">{transportInfo.driverPhone}</strong>
+            </div>
+            <div className="flex justify-between items-center py-1.5 border-b border-[#F1F5F9] text-[13px]">
+              <span className="text-[#64748B]">Pickup Time:</span>
+              <strong className="text-[#15803D]">{transportInfo.pickupTime}</strong>
+            </div>
+            <div className="flex justify-between items-center py-1.5 border-b border-[#F1F5F9] text-[13px]">
+              <span className="text-[#64748B]">Drop Time:</span>
+              <strong className="text-[#2563EB]">{transportInfo.dropTime}</strong>
+            </div>
+            <div className="flex justify-between items-center pt-2 text-[13px]">
+              <span className="text-[#64748B]">Annual Fee:</span>
+              <strong className="text-[#17153A]">₹{transportInfo.fee.toLocaleString('en-IN')}</strong>
             </div>
           </div>
-        </Card>
-        <Card className="lg:col-span-2">
-          <SectionHeader title="Live Bus Tracking" action={<Badge variant="success" size="sm"><span className="w-1.5 h-1.5 rounded-full bg-success-500 animate-pulse-soft" /> On Route</Badge>} />
-          <div className="relative aspect-video rounded-xl overflow-hidden bg-gradient-to-br from-primary-100 via-secondary-50 to-primary-50">
-            {/* Simulated map */}
-            <div className="absolute inset-0" style={{
-              backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' fill='none'%3E%3Cpath d='M0 20h40M20 0v40' stroke='%23cbd5e1' stroke-width='0.5'/%3E%3C/svg%3E")`,
-            }} />
+        </div>
+
+        {/* Right Column: Live Bus Tracking */}
+        <div className="lg:col-span-2 bg-[#FFFFFF] rounded-2xl border border-[#E2E8F0] p-5 shadow-card-soft space-y-3">
+          <div className="flex items-center justify-between pb-2 border-b border-[#F1F5F9]">
+            <div>
+              <h3 className="font-bold text-[16px] text-[#17153A]">Live Bus Tracking</h3>
+              <p className="text-[12px] text-[#64748B]">Real-time GPS vehicle location</p>
+            </div>
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[12px] font-semibold bg-[#F0FDF4] text-[#15803D] border border-[#BBF7D0]">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#16A34A] animate-pulse" />
+              On Route
+            </span>
+          </div>
+
+          <div className="relative aspect-video rounded-xl overflow-hidden bg-gradient-to-br from-[#EFF6FF] via-[#FAF7F2] to-[#F1F5F9] border border-[#E2E8F0]">
+            {/* Grid Pattern */}
+            <div
+              className="absolute inset-0 opacity-40"
+              style={{
+                backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' fill='none'%3E%3Cpath d='M0 20h40M20 0v40' stroke='%23CBD5E1' stroke-width='0.5'/%3E%3C/svg%3E")`,
+              }}
+            />
+
+            {/* SVG Visual Track */}
             <svg className="absolute inset-0 w-full h-full" viewBox="0 0 400 225">
-              <path d="M50 180 Q120 120 200 100 T350 50" stroke="#3b76f6" strokeWidth="3" fill="none" strokeDasharray="8 4" opacity="0.5" />
-              <circle cx="50" cy="180" r="6" fill="#14b8a6" />
-              <text x="62" y="184" fontSize="10" fill="#0f766e">School</text>
-              <circle cx="350" cy="50" r="6" fill="#ef4444" />
-              <text x="290" y="44" fontSize="10" fill="#991b1b">Your Stop</text>
-              <circle cx="200" cy="100" r="10" fill="#3b76f6" opacity="0.3" />
-              <circle cx="200" cy="100" r="6" fill="#3b76f6" className="animate-pulse-soft" />
-              <text x="210" y="104" fontSize="10" fill="#1c42d8" fontWeight="bold">Bus</text>
+              <path d="M50 180 Q120 120 200 100 T350 50" stroke="#7C612A" strokeWidth="3" fill="none" strokeDasharray="6 4" opacity="0.6" />
+              <circle cx="50" cy="180" r="7" fill="#15803D" />
+              <text x="62" y="184" fontSize="11" fill="#166534" fontWeight="600">School</text>
+
+              <circle cx="350" cy="50" r="7" fill="#DC2626" />
+              <text x="285" y="44" fontSize="11" fill="#991B1B" fontWeight="600">Your Stop</text>
+
+              <circle cx="200" cy="100" r="14" fill="#7C612A" opacity="0.25" className="animate-pulse" />
+              <circle cx="200" cy="100" r="7" fill="#7C612A" />
+              <text x="212" y="104" fontSize="11" fill="#7C612A" fontWeight="bold">Bus</text>
             </svg>
-            <div className="absolute bottom-3 left-3 right-3 bg-white/90 backdrop-blur rounded-lg p-3 flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <Icon name="Bus" size={18} className="text-primary-600" />
-                <div>
-                  <p className="text-[14px] font-medium text-ink-800">{transportInfo.vehicleNo}</p>
-                  <p className="text-[12px] text-ink-400">Speed: 28 km/h · ETA: 15 min</p>
-                </div>
+
+            {/* Floating Info Overlay */}
+            <div className="absolute bottom-3 left-3 right-3 bg-white/95 backdrop-blur-md rounded-xl p-3 border border-[#E2E8F0] shadow-sm flex items-center justify-between">
+              <div>
+                <p className="text-[13px] font-bold text-[#17153A]">{transportInfo.vehicleNo}</p>
+                <p className="text-[12px] text-[#64748B]">Speed: 28 km/h · ETA: ~12 Mins</p>
               </div>
-              <Badge variant="info" size="sm">In Transit</Badge>
+              <span className="text-[12px] font-semibold text-[#15803D]">
+                Ping: {formatFullDateTime('2026-10-23', '07:38:20 AM')}
+              </span>
             </div>
           </div>
-        </Card>
+        </div>
       </div>
     </div>
   );
@@ -6968,7 +7099,7 @@ function Helpdesk() {
       title: 'Student Pickup Gate Pass',
       badge: 'Helpdesk Service 01',
       description: 'Request a gate pass: who is coming, their name, date, time and reason. Track approval status.',
-      actionText: 'New Gate Pass',
+      actionText: '+ New Gate Pass',
       icon: 'solar:card-2-linear',
       onAction: () => setShowGatePass(true),
       stats: [
@@ -6981,7 +7112,7 @@ function Helpdesk() {
       title: 'Book Appointment',
       badge: 'Helpdesk Service 02',
       description: 'Book a meeting with a teacher or the office and view appointment history.',
-      actionText: 'Book Appointment',
+      actionText: '+ Book Appointment',
       icon: 'solar:calendar-date-linear',
       onAction: () => setShowAppointment(true),
       stats: [
@@ -6995,7 +7126,7 @@ function Helpdesk() {
       title: 'Apply for Certificate',
       badge: 'Helpdesk Service 03',
       description: 'Apply for certificates such as bonafide or leaving certificate, track status and download when issued.',
-      actionText: 'Apply for Certificate',
+      actionText: '+ Apply for Certificate',
       icon: 'solar:document-text-linear',
       onAction: () => setShowCertificate(true),
       stats: [
@@ -7128,7 +7259,7 @@ function Helpdesk() {
                           {/* Date & Time */}
                           <td className="px-5 py-4 whitespace-nowrap">
                             <span className="text-[13px] font-medium text-[#17153A]">
-                              {g.date} <span className="text-[#94A3B8] mx-1.5">&bull;</span> {g.time}
+                              {formatFullDateTime(g.date, g.time)}
                             </span>
                           </td>
 
@@ -7356,7 +7487,7 @@ function Helpdesk() {
 
                     <div className="bg-white p-3 rounded-xl border border-[#E2E8F0]">
                       <span className="text-[#64748B] block text-[12px] mb-0.5">Pickup Date & Time</span>
-                      <span className="font-semibold text-[#17153A] text-[12px]">{selectedPassSlip.date} at {selectedPassSlip.time}</span>
+                      <span className="font-semibold text-[#17153A] text-[12px]">{formatFullDateTime(selectedPassSlip.date, selectedPassSlip.time)}</span>
                     </div>
 
                     <div className="bg-white p-3 rounded-xl border border-[#E2E8F0]">
@@ -7441,7 +7572,7 @@ function Helpdesk() {
                           {/* Date & Time */}
                           <td className="px-5 py-4 whitespace-nowrap">
                             <span className="text-[13px] font-medium text-[#17153A]">
-                              {a.date} <span className="text-[#94A3B8] mx-1.5">&bull;</span> {a.time}
+                              {formatFullDateTime(a.date, a.time)}
                             </span>
                           </td>
 
@@ -7628,7 +7759,7 @@ function Helpdesk() {
 
                         {/* Applied Date */}
                         <td className="px-5 py-4 whitespace-nowrap">
-                          <span className="text-[13px] font-medium text-[#17153A]">{c.date}</span>
+                          <span className="text-[13px] font-medium text-[#17153A]">{formatDateOnly(c.date)}</span>
                         </td>
 
                         {/* Reason */}
@@ -7781,7 +7912,7 @@ function Helpdesk() {
                         {/* Date & Time */}
                         <td className="px-5 py-4 whitespace-nowrap">
                           <span className="text-[13px] font-medium text-[#17153A]">
-                            {v.date} <span className="text-[#94A3B8] mx-1.5">&bull;</span> {v.timeIn} - {v.timeOut}
+                            {formatFullDateTime(v.date, v.timeIn)}
                           </span>
                         </td>
 
@@ -7866,7 +7997,7 @@ function Helpdesk() {
                         {/* Date & Time */}
                         <td className="px-5 py-4 whitespace-nowrap">
                           <span className="text-[13px] font-medium text-[#17153A]">
-                            {p.date} <span className="text-[#94A3B8] mx-1.5">&bull;</span> {p.time}
+                            {formatFullDateTime(p.date, p.time)}
                           </span>
                         </td>
 
@@ -7951,7 +8082,7 @@ function Helpdesk() {
                         </div>
 
                         <div className="text-[12px] text-[#64748B]">
-                          <span>Issued Date: {c.date}</span>
+                          <span>Issued Date: {formatDateOnly(c.date)}</span>
                         </div>
 
                         <p className="text-[14px] text-[#475569] leading-relaxed pt-1">
