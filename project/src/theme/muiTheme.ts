@@ -192,6 +192,27 @@ export const muiTheme = createTheme({
           fontFamily: FONT_FAMILY_POPPINS,
           fontSize: '14px',
         },
+        input: {
+          fontFamily: FONT_FAMILY_POPPINS,
+          '&::placeholder': {
+            fontFamily: FONT_FAMILY_POPPINS,
+            opacity: 1,
+          },
+        },
+      },
+    },
+    MuiOutlinedInput: {
+      styleOverrides: {
+        root: {
+          fontFamily: FONT_FAMILY_POPPINS,
+        },
+        input: {
+          fontFamily: FONT_FAMILY_POPPINS,
+          '&::placeholder': {
+            fontFamily: FONT_FAMILY_POPPINS,
+            opacity: 1,
+          },
+        },
       },
     },
     MuiFormLabel: {

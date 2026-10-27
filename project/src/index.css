@@ -109,13 +109,15 @@
 @layer base {
   html {
     font-size: 16px;
-    font-family: 'Poppins', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-family: 'Poppins', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
   }
 
-  * {
+  *,
+  *::before,
+  *::after {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    font-family: 'Poppins', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-family: 'Poppins', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
   }
 
   body {
@@ -125,7 +127,18 @@
     @apply bg-ink-50 text-ink-800;
   }
 
-  /* Form Elements & Typography Defaults (Strict Pixel Hierarchy) */
+  /* Universal Placeholder Font Family Enforcement (Strictly Poppins across all browsers) */
+  ::placeholder,
+  ::-webkit-input-placeholder,
+  ::-moz-placeholder,
+  :-ms-input-placeholder,
+  input::placeholder,
+  textarea::placeholder,
+  select::placeholder {
+    font-family: 'Poppins', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+  }
+
+  /* Form Elements & Typography Defaults (Strict Pixel Hierarchy & Poppins) */
   input,
   button,
   select,
@@ -145,8 +158,12 @@
   h5,
   h6,
   label,
-  div {
-    font-family: 'Poppins', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  div,
+  code,
+  kbd,
+  samp,
+  pre {
+    font-family: 'Poppins', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
   }
 
   /* Standard Heading Hierarchy (Pixels) */
@@ -237,7 +254,7 @@
     outline: none !important;
     box-shadow: none !important;
     transition: border-color 0.15s ease-in-out;
-    font-family: 'Poppins', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-family: 'Poppins', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
   }
 
   input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]):focus,
@@ -366,4 +383,46 @@
   .text-balance {
     text-wrap: balance;
   }
+}
+
+/* ==========================================================================
+   Universal Global Poppins Enforcement (Strictly unlayered for max priority)
+   Ensures ALL elements, inputs, buttons, textareas, selects, and placeholders
+   consistently render with Poppins font family across the entire ERP portal.
+   ========================================================================== */
+html,
+body,
+*,
+*::before,
+*::after,
+input,
+button,
+select,
+textarea,
+optgroup,
+option,
+label,
+table,
+th,
+td,
+span,
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'Poppins', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+}
+
+/* Form Input & Textarea Placeholder Font Enforcement */
+::placeholder,
+::-webkit-input-placeholder,
+::-moz-placeholder,
+:-ms-input-placeholder,
+input::placeholder,
+textarea::placeholder,
+select::placeholder {
+  font-family: 'Poppins', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
 }

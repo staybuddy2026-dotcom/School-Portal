@@ -18,7 +18,7 @@ export const roleLabels: Record<Role, string> = {
   teacher: 'Teacher Portal',
   accountant: 'Accountant Portal',
   transport: 'Transport Portal',
-  nurse: 'Infirmary Portal',
+  nurse: 'Nurse Portal',
 };
 
 export const roleNames: Record<Role, string> = {
@@ -29,7 +29,7 @@ export const roleNames: Record<Role, string> = {
   teacher: 'Mrs. Meera Iyer',
   accountant: 'Mr. Suresh Bhat',
   transport: 'Mr. Imran Khan',
-  nurse: 'Nurse Farida Sheikh',
+  nurse: 'Pooja Sharma',
 };
 
 export const roleTitles: Record<Role, string> = {
@@ -40,7 +40,7 @@ export const roleTitles: Record<Role, string> = {
   teacher: 'Mathematics Teacher',
   accountant: 'Chief Accountant',
   transport: 'Transport Manager',
-  nurse: 'School Nurse',
+  nurse: 'Nurse',
 };
 
 export const navConfigs: Record<Role, NavConfig[]> = {
@@ -150,13 +150,10 @@ export const navConfigs: Record<Role, NavConfig[]> = {
     { label: 'Reports', key: 'trans-reports', icon: 'BarChart3' },
   ],
   nurse: [
-    { label: 'Dashboard', key: 'nurse-dashboard', icon: 'LayoutDashboard' },
-    { label: 'My Profile', key: 'nurse-profile', icon: 'User' },
-    { label: 'Student Search', key: 'nurse-search', icon: 'Search' },
-    { label: 'Student Health Profile', key: 'nurse-health', icon: 'HeartPulse' },
-    { label: 'Visit Entry', key: 'nurse-visit-entry', icon: 'ClipboardPlus' },
-    { label: 'Visit History', key: 'nurse-visit-history', icon: 'History' },
-    { label: 'Medicine Stock', key: 'nurse-medicine', icon: 'Pill' },
-    { label: 'Reports', key: 'nurse-reports', icon: 'BarChart3' },
+    { label: 'Dashboard', key: 'nurse-dashboard', icon: 'mage:dashboard-bar-notification', iconWidth: 24, iconHeight: 24 },
+    { label: 'My Profile', key: 'nurse-profile', icon: 'hugeicons:user-round', iconWidth: 24, iconHeight: 24 },
+    { label: 'Students Health Profile', key: 'nurse-health', icon: 'hugeicons:health', iconWidth: 24, iconHeight: 24 },
+    { label: 'Visit History', key: 'nurse-visit-history', icon: 'hugeicons:history', iconWidth: 24, iconHeight: 24 },
+    { label: 'Medicine Stock', key: 'nurse-medicine', icon: 'hugeicons:hospital-02', iconWidth: 24, iconHeight: 24 },
   ],
 };

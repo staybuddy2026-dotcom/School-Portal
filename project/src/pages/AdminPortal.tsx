@@ -200,13 +200,12 @@ function AdminDashboard() {
                       {e.time ? `${e.time} · ` : ''}{e.location || 'School Campus'}
                     </p>
                   </div>
-                  <span className={`px-2 py-0.5 text-[10px] font-semibold rounded-full border ${
-                    e.type === 'holiday'
+                  <span className={`px-2 py-0.5 text-[10px] font-semibold rounded-full border ${e.type === 'holiday'
                       ? 'bg-[#FFF1F2] text-[#BE123C] border-[#FECDD3]'
                       : e.type === 'exam'
-                      ? 'bg-[#EFF6FF] text-[#1D4ED8] border-[#BFDBFE]'
-                      : 'bg-[#F0FDF4] text-[#15803D] border-[#BBF7D0]'
-                  }`}>
+                        ? 'bg-[#EFF6FF] text-[#1D4ED8] border-[#BFDBFE]'
+                        : 'bg-[#F0FDF4] text-[#15803D] border-[#BBF7D0]'
+                    }`}>
                     {e.type}
                   </span>
                 </div>
@@ -270,11 +269,10 @@ function SchoolSetup() {
                     <td className="px-5 py-3.5 text-[#64748B] font-mono text-[12px]">{y.start}</td>
                     <td className="px-5 py-3.5 text-[#64748B] font-mono text-[12px]">{y.end}</td>
                     <td className="px-5 py-3.5 text-center">
-                      <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-semibold border ${
-                        y.status === 'active'
+                      <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-semibold border ${y.status === 'active'
                           ? 'bg-[#F0FDF4] text-[#15803D] border-[#BBF7D0]'
                           : 'bg-[#F8FAFC] text-[#64748B] border-[#E2E8F0]'
-                      }`}>
+                        }`}>
                         {y.status}
                       </span>
                     </td>
@@ -560,7 +558,7 @@ function UsersRoles() {
                 { name: 'Mrs. Meera Iyer', role: 'Teacher', email: 'meera@greenwood.edu', status: 'active', last: '1 hour ago', isTeacher: true },
                 { name: 'Mr. Suresh Bhat', role: 'Accountant', email: 'suresh@greenwood.edu', status: 'active', last: '3 hours ago', isTeacher: false },
                 { name: 'Mr. Imran Khan', role: 'Transport Manager', email: 'imran@greenwood.edu', status: 'active', last: '30 min ago', isTeacher: false },
-                { name: 'Nurse Farida Sheikh', role: 'Nurse', email: 'farida@greenwood.edu', status: 'active', last: '5 hours ago', isTeacher: false },
+                { name: 'Pooja Sharma', role: 'Nurse', email: 'farida@greenwood.edu', status: 'active', last: '5 hours ago', isTeacher: false },
                 { name: 'Mr. Arjun Kapoor', role: 'Teacher', email: 'arjun@greenwood.edu', status: 'inactive', last: '2 days ago', isTeacher: true },
               ].map((u, i) => (
                 <tr key={i} className="hover:bg-[#F8FAFC] transition-colors">
@@ -581,11 +579,10 @@ function UsersRoles() {
                   </td>
                   <td className="px-5 py-3.5 text-[#64748B] font-mono text-[12px]">{u.email}</td>
                   <td className="px-5 py-3.5 text-center">
-                    <span className={`px-2 py-0.5 rounded-full text-[10px] font-semibold border ${
-                      u.status === 'active'
+                    <span className={`px-2 py-0.5 rounded-full text-[10px] font-semibold border ${u.status === 'active'
                         ? 'bg-[#F0FDF4] text-[#15803D] border-[#BBF7D0]'
                         : 'bg-[#F8FAFC] text-[#64748B] border-[#E2E8F0]'
-                    }`}>
+                      }`}>
                       {u.status}
                     </span>
                   </td>
@@ -803,11 +800,10 @@ function StudentManagement() {
                 <td className="px-5 py-3.5 text-[#0F172A] font-medium">{s.class}</td>
                 <td className="px-5 py-3.5 text-[#64748B]">{s.parent}</td>
                 <td className="px-5 py-3.5 text-center">
-                  <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-semibold border ${
-                    s.status === 'active'
+                  <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-semibold border ${s.status === 'active'
                       ? 'bg-[#F0FDF4] text-[#15803D] border-[#BBF7D0]'
                       : 'bg-[#F8FAFC] text-[#64748B] border-[#E2E8F0]'
-                  }`}>
+                    }`}>
                     {s.status}
                   </span>
                 </td>
@@ -1091,11 +1087,10 @@ function FeeManagement() {
                     <td className="px-5 py-3.5 text-[#64748B]">{c.desc}</td>
                     <td className="px-5 py-3.5 text-right font-bold text-[#15803D]">{c.amount}</td>
                     <td className="px-5 py-3.5 text-center">
-                      <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-semibold border ${
-                        c.approval === 'admin'
+                      <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-semibold border ${c.approval === 'admin'
                           ? 'bg-[#FFFBEB] text-[#B45309] border-[#FDE68A]'
                           : 'bg-[#F0FDF4] text-[#15803D] border-[#BBF7D0]'
-                      }`}>
+                        }`}>
                         {c.approval === 'admin' ? 'Admin Approval' : 'Auto Applied'}
                       </span>
                     </td>
@@ -1439,11 +1434,10 @@ function CalendarHolidays() {
               key={f.key}
               type="button"
               onClick={() => setFilterType(f.key)}
-              className={`px-3 py-1.5 rounded-xl text-[12px] font-semibold transition-colors ${
-                filterType === f.key
+              className={`px-3 py-1.5 rounded-xl text-[12px] font-semibold transition-colors ${filterType === f.key
                   ? 'bg-[#7C612A] text-[#FFFFFF]'
                   : 'bg-[#F8FAFC] text-[#64748B] hover:bg-[#F1F5F9]'
-              }`}
+                }`}
             >
               {f.label}
             </button>
@@ -1493,13 +1487,12 @@ function CalendarHolidays() {
                     {e.description && <p className="text-[12px] text-[#64748B] line-clamp-1 mt-0.5">{e.description}</p>}
                   </td>
                   <td className="px-5 py-3.5 text-center">
-                    <span className={`px-2 py-0.5 rounded-full text-[10px] font-semibold border ${
-                      e.type === 'holiday'
+                    <span className={`px-2 py-0.5 rounded-full text-[10px] font-semibold border ${e.type === 'holiday'
                         ? 'bg-[#FFF1F2] text-[#BE123C] border-[#FECDD3]'
                         : e.type === 'exam'
-                        ? 'bg-[#EFF6FF] text-[#1D4ED8] border-[#BFDBFE]'
-                        : 'bg-[#F0FDF4] text-[#15803D] border-[#BBF7D0]'
-                    }`}>
+                          ? 'bg-[#EFF6FF] text-[#1D4ED8] border-[#BFDBFE]'
+                          : 'bg-[#F0FDF4] text-[#15803D] border-[#BBF7D0]'
+                      }`}>
                       {e.type}
                     </span>
                   </td>
@@ -1660,13 +1653,12 @@ function ExamSetup() {
                     <td className="px-5 py-3.5 text-[#64748B]">{e.term}</td>
                     <td className="px-5 py-3.5 text-right font-bold text-[#0F172A] font-mono">{e.max}</td>
                     <td className="px-5 py-3.5 text-center">
-                      <span className={`px-2 py-0.5 rounded-full text-[10px] font-semibold border ${
-                        e.status === 'active'
+                      <span className={`px-2 py-0.5 rounded-full text-[10px] font-semibold border ${e.status === 'active'
                           ? 'bg-[#F0FDF4] text-[#15803D] border-[#BBF7D0]'
                           : e.status === 'completed'
-                          ? 'bg-[#F8FAFC] text-[#64748B] border-[#E2E8F0]'
-                          : 'bg-[#FFFBEB] text-[#B45309] border-[#FDE68A]'
-                      }`}>
+                            ? 'bg-[#F8FAFC] text-[#64748B] border-[#E2E8F0]'
+                            : 'bg-[#FFFBEB] text-[#B45309] border-[#FDE68A]'
+                        }`}>
                         {e.status}
                       </span>
                     </td>
@@ -1705,11 +1697,10 @@ function ExamSetup() {
                     <td className="px-5 py-3.5 text-[#64748B]">{s.class}</td>
                     <td className="px-5 py-3.5 text-[#0F172A] font-mono text-[12px]">{s.dates}</td>
                     <td className="px-5 py-3.5 text-center">
-                      <span className={`px-2 py-0.5 rounded-full text-[10px] font-semibold border ${
-                        s.status === 'scheduled'
+                      <span className={`px-2 py-0.5 rounded-full text-[10px] font-semibold border ${s.status === 'scheduled'
                           ? 'bg-[#EFF6FF] text-[#1D4ED8] border-[#BFDBFE]'
                           : 'bg-[#F8FAFC] text-[#64748B] border-[#E2E8F0]'
-                      }`}>
+                        }`}>
                         {s.status}
                       </span>
                     </td>
@@ -1796,13 +1787,12 @@ function ExamSetup() {
                     <td className="px-5 py-3.5 text-[#64748B]">Class {r.class}</td>
                     <td className="px-5 py-3.5 text-center font-bold text-[#0F172A]">{r.submitted}</td>
                     <td className="px-5 py-3.5 text-center">
-                      <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-semibold border ${
-                        r.status === 'published'
+                      <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-semibold border ${r.status === 'published'
                           ? 'bg-[#F0FDF4] text-[#15803D] border-[#BBF7D0]'
                           : r.status === 'pending approval'
-                          ? 'bg-[#FFFBEB] text-[#B45309] border-[#FDE68A]'
-                          : 'bg-[#EFF6FF] text-[#1D4ED8] border-[#BFDBFE]'
-                      }`}>
+                            ? 'bg-[#FFFBEB] text-[#B45309] border-[#FDE68A]'
+                            : 'bg-[#EFF6FF] text-[#1D4ED8] border-[#BFDBFE]'
+                        }`}>
                         {r.status}
                       </span>
                     </td>
@@ -1879,13 +1869,12 @@ function SyllabusSetup() {
                 <td className="px-5 py-3.5 font-mono text-[12px] text-[#64748B]">Ch {c.ch}</td>
                 <td className="px-5 py-3.5 font-semibold text-[#0F172A]">{c.name}</td>
                 <td className="px-5 py-3.5 text-center">
-                  <span className={`px-2 py-0.5 rounded-full text-[10px] font-semibold border ${
-                    c.status === 'completed'
+                  <span className={`px-2 py-0.5 rounded-full text-[10px] font-semibold border ${c.status === 'completed'
                       ? 'bg-[#F0FDF4] text-[#15803D] border-[#BBF7D0]'
                       : c.status === 'in progress'
-                      ? 'bg-[#FFFBEB] text-[#B45309] border-[#FDE68A]'
-                      : 'bg-[#F8FAFC] text-[#64748B] border-[#E2E8F0]'
-                  }`}>
+                        ? 'bg-[#FFFBEB] text-[#B45309] border-[#FDE68A]'
+                        : 'bg-[#F8FAFC] text-[#64748B] border-[#E2E8F0]'
+                    }`}>
                     {c.status}
                   </span>
                 </td>
@@ -1998,11 +1987,10 @@ function Events() {
                     <span className="text-[14px] font-bold leading-none">{d}</span>
                     <span className="text-[9px] uppercase font-bold leading-none mt-0.5">{evMonth}</span>
                   </div>
-                  <span className={`px-2 py-0.5 text-[10px] font-semibold rounded-full border ${
-                    e.type === 'ptm'
+                  <span className={`px-2 py-0.5 text-[10px] font-semibold rounded-full border ${e.type === 'ptm'
                       ? 'bg-[#FAF5FF] text-[#7E22CE] border-[#E9D5FF]'
                       : 'bg-[#F0FDF4] text-[#15803D] border-[#BBF7D0]'
-                  }`}>
+                    }`}>
                     {e.type.toUpperCase()}
                   </span>
                 </div>
@@ -2077,11 +2065,10 @@ function Helpdesk() {
                   <td className="px-5 py-3.5 text-[#64748B] font-mono text-[12px]">{g.date}</td>
                   <td className="px-5 py-3.5 text-[#475569]">{g.reason}</td>
                   <td className="px-5 py-3.5 text-center">
-                    <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-semibold border ${
-                      g.status === 'approved'
+                    <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-semibold border ${g.status === 'approved'
                         ? 'bg-[#F0FDF4] text-[#15803D] border-[#BBF7D0]'
                         : 'bg-[#FFFBEB] text-[#B45309] border-[#FDE68A]'
-                    }`}>
+                      }`}>
                       {g.status}
                     </span>
                   </td>
@@ -2135,11 +2122,10 @@ function Helpdesk() {
                     <td className="px-5 py-3.5 text-[#64748B] font-mono text-[12px]">{a.date}</td>
                     <td className="px-5 py-3.5 text-[#0F172A] font-semibold">{a.time}</td>
                     <td className="px-5 py-3.5 text-center">
-                      <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-semibold border ${
-                        a.status === 'approved'
+                      <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-semibold border ${a.status === 'approved'
                           ? 'bg-[#F0FDF4] text-[#15803D] border-[#BBF7D0]'
                           : 'bg-[#FFFBEB] text-[#B45309] border-[#FDE68A]'
-                      }`}>
+                        }`}>
                         {a.status}
                       </span>
                     </td>
@@ -2190,11 +2176,10 @@ function Helpdesk() {
                     <td className="px-5 py-3.5 text-[#64748B]">{c.type}</td>
                     <td className="px-5 py-3.5 text-[#64748B] font-mono text-[12px]">{c.date}</td>
                     <td className="px-5 py-3.5 text-center">
-                      <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-semibold border ${
-                        c.status === 'issued'
+                      <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-semibold border ${c.status === 'issued'
                           ? 'bg-[#F0FDF4] text-[#15803D] border-[#BBF7D0]'
                           : 'bg-[#FFFBEB] text-[#B45309] border-[#FDE68A]'
-                      }`}>
+                        }`}>
                         {c.status}
                       </span>
                     </td>
@@ -2275,11 +2260,10 @@ function Helpdesk() {
                     <td className="px-5 py-3.5 text-[#64748B]">{p.class}</td>
                     <td className="px-5 py-3.5 text-[#0F172A] font-mono text-[12px]">{p.time}</td>
                     <td className="px-5 py-3.5 text-center">
-                      <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-semibold border ${
-                        p.status === 'scheduled'
+                      <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-semibold border ${p.status === 'scheduled'
                           ? 'bg-[#F0FDF4] text-[#15803D] border-[#BBF7D0]'
                           : 'bg-[#F8FAFC] text-[#64748B] border-[#E2E8F0]'
-                      }`}>
+                        }`}>
                         {p.status}
                       </span>
                     </td>
@@ -2376,13 +2360,12 @@ function TransportAdmin() {
                 <td className="px-5 py-3.5 text-[#0F172A]">{r.driver}</td>
                 <td className="px-5 py-3.5 text-right font-bold text-[#0F172A]">{r.students}</td>
                 <td className="px-5 py-3.5 text-center">
-                  <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-semibold border ${
-                    r.status === 'on route'
+                  <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-semibold border ${r.status === 'on route'
                       ? 'bg-[#F0FDF4] text-[#15803D] border-[#BBF7D0]'
                       : r.status === 'idle'
-                      ? 'bg-[#F8FAFC] text-[#64748B] border-[#E2E8F0]'
-                      : 'bg-[#FFFBEB] text-[#B45309] border-[#FDE68A]'
-                  }`}>
+                        ? 'bg-[#F8FAFC] text-[#64748B] border-[#E2E8F0]'
+                        : 'bg-[#FFFBEB] text-[#B45309] border-[#FDE68A]'
+                    }`}>
                     {r.status}
                   </span>
                 </td>

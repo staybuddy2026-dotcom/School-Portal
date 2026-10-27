@@ -131,13 +131,13 @@ function Dashboard({ student }: { student: typeof students[0] }) {
   return (
     <div className="animate-fade-in">
       {/* Student Welcome Card - World-Class Professional ERP Header */}
-      <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-5 sm:p-6 mb-6 transition-all duration-200">
+      <div className="bg-white rounded-2xl border border-FAF7F2 shadow-sm p-5 sm:p-6 mb-6 transition-all duration-200">
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-0">
           {/* Left: Avatar + Details */}
           <div className="flex items-center gap-4 sm:gap-5">
             {/* Student Portrait - Square */}
             <div className="relative shrink-0">
-              <div className="w-20 h-20 sm:w-20 sm:h-20 aspect-square rounded-full overflow-hidden border-2 border-E2E8F0 ring-2 bg-slate-100 flex items-center justify-center">
+              <div className="w-20 h-20 sm:w-20 sm:h-20 aspect-square rounded-full overflow-hidden border-2 border-FAF7F2 ring-2 bg-FAF7F2 flex items-center justify-center">
                 {student.photo ? (
                   <img
                     src={student.photo}

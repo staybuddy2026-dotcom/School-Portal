@@ -431,7 +431,7 @@ export function SearchInput({ value, onChange, placeholder = 'Search...', classN
         value={value}
         onChange={onChange}
         placeholder={placeholder}
-        className={`w-full pl-9 pr-3 py-1.5 text-[14px] rounded-xl border border-[${colors.border.medium}] bg-[${colors.surface.card}] text-[${colors.text.primary}] placeholder-[${colors.text.muted}] outline-none focus:border-[${colors.brand.primary}] transition-colors`}
+        className={`w-full pl-9 pr-3 py-1.5 text-[14px] rounded-xl border border-[${colors.border.medium}] bg-[${colors.surface.card}] text-[${colors.text.primary}] placeholder-[${colors.text.muted}] font-['Poppins'] placeholder:font-['Poppins'] outline-none focus:border-[${colors.brand.primary}] transition-colors`}
         {...props}
       />
       <Icon name="Search" size={14} className={`absolute left-3 top-1/2 -translate-y-1/2 text-[${colors.text.muted}]`} />
@@ -718,7 +718,7 @@ function CustomDatePicker({ label, error, hint, required, className = '', value,
             e.stopPropagation();
             setOpen(prev => !prev);
           }}
-          className={`w-full h-10 px-3.5 text-[14px] rounded-xl border bg-[${colors.surface.card}] transition-colors flex items-center justify-between text-left outline-none cursor-pointer ${error ? `border-[${colors.status.error.text}]` : `border-[${colors.border.medium}] hover:border-[${colors.brand.primary}]`
+          className={`w-full h-10 px-3.5 text-[14px] rounded-xl border bg-[${colors.surface.card}] transition-colors flex items-center justify-between text-left outline-none cursor-pointer font-['Poppins'] ${error ? `border-[${colors.status.error.text}]` : `border-[${colors.border.medium}] hover:border-[${colors.brand.primary}]`
             } ${disabled ? 'opacity-50 cursor-not-allowed' : ''} ${className}`}
         >
           <span className={currentValue ? `text-[${colors.text.primary}] font-medium` : `text-[${colors.text.muted}]`}>
@@ -875,49 +875,26 @@ function CustomDatePicker({ label, error, hint, required, className = '', value,
 }
 
 export function Input({ label, error, hint, required, className = '', type, value, onChange, placeholder, disabled, align, ...props }: InputProps) {
-  if (type === 'date') {
-    return (
-      <CustomDatePicker
-        label={label}
-        error={error}
-        hint={hint}
-        required={required}
-        className={className}
-        value={typeof value === 'string' ? value : (props.defaultValue as string) || ''}
-        onChange={onChange as any}
-        disabled={disabled}
-        name={props.name}
-        placeholder={placeholder}
-        align={align}
-      />
-    );
-  }
-
   return (
     <div>
       {label && (
-        <label className={`block text-[14px] font-semibold text-[${colors.text.slateDark}] mb-1.5`}>
+        <label className={`block text-[14px] font-semibold text-[${colors.text.slateDark}] mb-1.5 font-['Poppins']`}>
           {label} {required && <span className={`text-[${colors.status.error.text}]`}>*</span>}
         </label>
       )}
       <input
         type={type}
         value={value}
-        onChange={(e) => {
-          onChange?.(e);
-          if (type === 'date') {
-            (e.target as HTMLInputElement).blur();
-          }
-        }}
+        onChange={onChange}
         placeholder={placeholder}
         disabled={disabled}
-        className={`w-full h-10 px-3.5 text-[14px] rounded-xl border bg-white transition-colors outline-none focus:outline-none focus:ring-0 placeholder:text-[${colors.text.muted}] ${error ? `border-[${colors.status.error.text}] focus:border-[${colors.status.error.dark}]`
+        className={`w-full h-10 px-3.5 text-[14px] rounded-xl border bg-white transition-colors outline-none focus:outline-none focus:ring-0 placeholder:text-[${colors.text.muted}] font-['Poppins'] placeholder:font-['Poppins'] ${type === 'date' ? 'cursor-pointer' : ''} ${error ? `border-[${colors.status.error.text}] focus:border-[${colors.status.error.dark}]`
           : `border-[${colors.border.medium}] focus:border-[${colors.brand.primary}]`
           } ${className}`}
         {...props}
       />
-      {hint && !error && <p className={`text-[12px] text-[${colors.text.secondary}] mt-1`}>{hint}</p>}
-      {error && <p className={`text-[12px] text-[${colors.status.error.text}] mt-1`}>{error}</p>}
+      {hint && !error && <p className={`text-[12px] text-[${colors.text.secondary}] mt-1 font-['Poppins']`}>{hint}</p>}
+      {error && <p className={`text-[12px] text-[${colors.status.error.text}] mt-1 font-['Poppins']`}>{error}</p>}
     </div>
   );
 }
@@ -933,19 +910,19 @@ export function Select({ label, error, required, options, className = '', ...pro
   return (
     <div>
       {label && (
-        <label className={`block text-[14px] font-semibold text-[${colors.text.slateDark}] mb-1.5`}>
+        <label className={`block text-[14px] font-semibold text-[${colors.text.slateDark}] mb-1.5 font-['Poppins']`}>
           {label} {required && <span className={`text-[${colors.status.error.text}]`}>*</span>}
         </label>
       )}
       <select
-        className={`w-full h-10 px-3.5 text-[14px] rounded-xl border bg-white transition-colors appearance-none cursor-pointer outline-none focus:outline-none focus:ring-0 ${error ? `border-[${colors.status.error.text}] focus:border-[${colors.status.error.dark}]` : `border-[${colors.border.medium}] focus:border-[${colors.brand.primary}]`
+        className={`w-full h-10 px-3.5 text-[14px] rounded-xl border bg-white transition-colors appearance-none cursor-pointer outline-none focus:outline-none focus:ring-0 font-['Poppins'] ${error ? `border-[${colors.status.error.text}] focus:border-[${colors.status.error.dark}]` : `border-[${colors.border.medium}] focus:border-[${colors.brand.primary}]`
           } ${className}`}
         style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2210%22 height=%226%22 fill=%22none%22%3E%3Cpath d=%22M1 1l4 4 4-4%22 stroke=%22%2394a3b8%22 stroke-width=%221.5%22 stroke-linecap=%22round%22/%3E%3C/svg%3E")', backgroundRepeat: 'no-repeat', backgroundPosition: 'right 12px center', paddingRight: '32px' }}
         {...props}
       >
         {options.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
       </select>
-      {error && <p className={`text-[12px] text-[${colors.status.error.text}] mt-1`}>{error}</p>}
+      {error && <p className={`text-[12px] text-[${colors.status.error.text}] mt-1 font-['Poppins']`}>{error}</p>}
     </div>
   );
 }
@@ -960,16 +937,16 @@ export function Textarea({ label, error, required, className = '', ...props }: T
   return (
     <div>
       {label && (
-        <label className={`block text-[14px] font-semibold text-[${colors.text.slateDark}] mb-1.5`}>
+        <label className={`block text-[14px] font-semibold text-[${colors.text.slateDark}] mb-1.5 font-['Poppins']`}>
           {label} {required && <span className={`text-[${colors.status.error.text}]`}>*</span>}
         </label>
       )}
       <textarea
-        className={`w-full px-3.5 py-2.5 text-[14px] rounded-xl border bg-white transition-colors placeholder:text-[${colors.text.muted}] resize-y outline-none focus:outline-none focus:ring-0 ${error ? `border-[${colors.status.error.text}] focus:border-[${colors.status.error.dark}]` : `border-[${colors.border.medium}] focus:border-[${colors.brand.primary}]`
+        className={`w-full px-3.5 py-2.5 text-[14px] rounded-xl border bg-white transition-colors placeholder:text-[${colors.text.muted}] font-['Poppins'] placeholder:font-['Poppins'] resize-y outline-none focus:outline-none focus:ring-0 ${error ? `border-[${colors.status.error.text}] focus:border-[${colors.status.error.dark}]` : `border-[${colors.border.medium}] focus:border-[${colors.brand.primary}]`
           } ${className}`}
         {...props}
       />
-      {error && <p className={`text-[12px] text-[${colors.status.error.text}] mt-1`}>{error}</p>}
+      {error && <p className={`text-[12px] text-[${colors.status.error.text}] mt-1 font-['Poppins']`}>{error}</p>}
     </div>
   );
 }
