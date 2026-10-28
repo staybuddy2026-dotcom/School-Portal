@@ -792,7 +792,7 @@ const initialStudentHealthRecords: StudentHealthRecord[] = [
     vision: '6/6 (Normal)',
     hearing: 'Normal',
     nurseNotes: 'Active child. All growth milestone parameters normal for primary grade.',
-    visitsCount: 1,
+    visitsCount: 4,
   },
   {
     id: 'STU-2026-0024',
@@ -2154,94 +2154,162 @@ function HealthProfile() {
             )}
 
             {/* Tab 3: Health Visits (Nurse એ કરેલી દરેક visit નો record) */}
-            {dossierTab === 'visits' && (
-              <div className="bg-[#FFFFFF] border border-[#E2E8F0] rounded-2xl p-4 sm:p-5 shadow-card-soft space-y-3">
-                <div className="flex items-center justify-between pb-3 border-b border-[#F1F5F9]">
-                  <div className="flex items-center gap-2.5">
-                    <div className="w-8 h-8 rounded-lg bg-[#FAF7F2] border border-[#E8DFC8] text-[#7C612A] flex items-center justify-center shrink-0">
-                      <Icon name="ClipboardList" size={16} />
+            {dossierTab === 'visits' && (() => {
+              const studentVisits = viewingStudent.name === 'Kabir Sen'
+                ? [
+                    {
+                      id: 'VIS-2026-081',
+                      title: 'Routine Seasonal Health Screening',
+                      status: 'Treated & Released',
+                      statusBadge: 'text-[#15803D] bg-[#F0FDF4] border-[#BBF7D0]',
+                      action: 'Active child. All growth milestone parameters normal for primary grade.',
+                      date: formatDateOnly(viewingStudent.lastCheckupDate),
+                      attending: 'School Nurse',
+                      icon: 'Stethoscope',
+                    },
+                    {
+                      id: 'VIS-2026-064',
+                      title: 'Playground Abrasion & First Aid',
+                      status: 'First Aid Administered',
+                      statusBadge: 'text-[#1D4ED8] bg-[#EFF6FF] border-[#BFDBFE]',
+                      action: 'Minor superficial scrape on left knee during recess. Antiseptic wash applied with sterile adhesive dressing.',
+                      date: '28/08/2026',
+                      attending: 'Nurse Sneha Trivedi',
+                      icon: 'HeartPulse',
+                    },
+                    {
+                      id: 'VIS-2026-042',
+                      title: 'Mild Headache & Infirmary Rest',
+                      status: 'Monitored & Cleared',
+                      statusBadge: 'text-[#7C3AED] bg-[#F5F3FF] border-[#DDD6FE]',
+                      action: 'Reported slight headache after outdoor PT. Rested for 20 mins, hydration provided, vitals normal.',
+                      date: '14/08/2026',
+                      attending: 'School Nurse',
+                      icon: 'Activity',
+                    },
+                    {
+                      id: 'VIS-2026-019',
+                      title: 'Annual Pediatric Dental & Vision Screening',
+                      status: 'Completed & Cleared',
+                      statusBadge: 'text-[#0F766E] bg-[#F0FDFA] border-[#99F6E4]',
+                      action: 'Distant vision 6/6 bilateral, oral hygiene certified sound. Annual student health certificate approved.',
+                      date: '15/07/2026',
+                      attending: 'Dr. Mehta (Visiting Pediatrician)',
+                      icon: 'Eye',
+                    },
+                  ]
+                : [
+                    {
+                      id: `${viewingStudent.id}-V1`,
+                      title: viewingStudent.name === 'Diya Patel' ? 'Stomach pain & nausea' : viewingStudent.name === 'Aarav Sharma' ? 'Headache and mild fever' : 'Routine Seasonal Health Screening',
+                      status: viewingStudent.status === 'Under Medication' ? 'Under Care' : 'Treated & Released',
+                      statusBadge: viewingStudent.status === 'Under Medication' ? 'text-[#D97706] bg-[#FFFBEB] border-[#FDE68A]' : 'text-[#15803D] bg-[#F0FDF4] border-[#BBF7D0]',
+                      action: viewingStudent.nurseNotes || 'Infirmary observation and rest provided.',
+                      date: formatDateOnly(viewingStudent.lastCheckupDate),
+                      attending: 'School Nurse',
+                      icon: 'Stethoscope',
+                    },
+                    ...(viewingStudent.visitsCount >= 2 ? [
+                      {
+                        id: `${viewingStudent.id}-V2`,
+                        title: 'First Aid Dressing & Antiseptic Care',
+                        status: 'Treated & Cleared',
+                        statusBadge: 'text-[#1D4ED8] bg-[#EFF6FF] border-[#BFDBFE]',
+                        action: 'Superficial skin graze treated with povidone-iodine dressing.',
+                        date: '22/08/2026',
+                        attending: 'Nurse Sneha Trivedi',
+                        icon: 'HeartPulse',
+                      },
+                    ] : []),
+                    ...(viewingStudent.visitsCount >= 3 ? [
+                      {
+                        id: `${viewingStudent.id}-V3`,
+                        title: 'Periodic Physical Fitness & Vitals Check',
+                        status: 'Completed',
+                        statusBadge: 'text-[#7C3AED] bg-[#F5F3FF] border-[#DDD6FE]',
+                        action: 'Height, weight, and blood pressure recorded for health records.',
+                        date: '10/08/2026',
+                        attending: 'School Nurse',
+                        icon: 'Activity',
+                      },
+                    ] : []),
+                    ...(viewingStudent.visitsCount >= 4 ? [
+                      {
+                        id: `${viewingStudent.id}-V4`,
+                        title: 'Annual Pediatric Dental & Vision Screening',
+                        status: 'Completed & Cleared',
+                        statusBadge: 'text-[#0F766E] bg-[#F0FDFA] border-[#99F6E4]',
+                        action: 'Vision 6/6 bilateral, oral hygiene certified sound.',
+                        date: '15/07/2026',
+                        attending: 'Dr. Mehta (Visiting Pediatrician)',
+                        icon: 'Eye',
+                      },
+                    ] : []),
+                  ];
+
+              return (
+                <div className="bg-[#FFFFFF] border border-[#E2E8F0] rounded-2xl p-4 sm:p-5 shadow-card-soft space-y-3">
+                  <div className="flex items-center justify-between pb-3 border-b border-[#F1F5F9]">
+                    <div className="flex items-center gap-2.5">
+                      <div className="w-8 h-8 rounded-lg bg-[#FAF7F2] border border-[#E8DFC8] text-[#7C612A] flex items-center justify-center shrink-0">
+                        <Icon name="ClipboardList" size={16} />
+                      </div>
+                      <div>
+                        <h4 className="text-[13px] font-bold text-[#17153A] uppercase tracking-wider">
+                          Infirmary Visit History Log
+                        </h4>
+                        <p className="text-[11px] text-[#64748B]">All recorded campus clinic admissions and consultations</p>
+                      </div>
                     </div>
-                    <div>
-                      <h4 className="text-[13px] font-bold text-[#17153A] uppercase tracking-wider">
-                        Infirmary Visit History Log
-                      </h4>
-                      <p className="text-[11px] text-[#64748B]">All recorded campus clinic admissions and consultations</p>
-                    </div>
+                    <span className="text-[11px] font-semibold px-2.5 py-1 rounded-full bg-[#FAF7F2] text-[#7C612A] border border-[#E8DFC8]">
+                      {studentVisits.length} Recorded Visits
+                    </span>
                   </div>
-                  <span className="text-[11px] font-semibold px-2.5 py-1 rounded-full bg-[#FAF7F2] text-[#7C612A] border border-[#E8DFC8]">
-                    {viewingStudent.visitsCount} Recorded Visits
-                  </span>
-                </div>
 
-                {viewingStudent.visitsCount > 0 ? (
-                  <div className="space-y-2.5">
-                    {/* Primary Visit Record */}
-                    <div className="p-3.5 rounded-xl bg-[#F8FAFC] border border-[#E2E8F0] flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                      <div className="flex items-start gap-3">
-                        <div className="w-9 h-9 rounded-lg bg-white border border-[#E2E8F0] flex items-center justify-center text-[#7C612A] shrink-0">
-                          <Icon name="Stethoscope" size={16} />
-                        </div>
-                        <div>
-                          <div className="flex items-center gap-2 flex-wrap">
-                            <span className="text-[13px] font-bold text-[#17153A]">
-                              {viewingStudent.name === 'Diya Patel' ? 'Stomach pain & nausea' : viewingStudent.name === 'Aarav Sharma' ? 'Headache and mild fever' : 'Routine Seasonal Health Screening'}
-                            </span>
-                            <span className="text-[11px] font-semibold text-[#15803D] bg-[#F0FDF4] border border-[#BBF7D0] px-2 py-0.5 rounded-md">
-                              {viewingStudent.status === 'Under Medication' ? 'Under Care' : 'Treated & Released'}
-                            </span>
-                          </div>
-                          <p className="text-[12px] text-[#64748B] mt-0.5">
-                            Action: <strong className="text-[#17153A]">{viewingStudent.nurseNotes || 'Infirmary observation and rest provided.'}</strong>
-                          </p>
-                        </div>
-                      </div>
-                      <div className="text-left sm:text-right shrink-0">
-                        <span className="text-[11px] font-mono text-[#64748B] block">
-                          Checkup: {formatDateOnly(viewingStudent.lastCheckupDate)}
-                        </span>
-                        <span className="text-[10px] text-[#7C612A] font-semibold">Attending: School Nurse</span>
-                      </div>
-                    </div>
-
-                    {/* Secondary Visit Record if count > 1 */}
-                    {viewingStudent.visitsCount > 1 && (
-                      <div className="p-3.5 rounded-xl bg-[#F8FAFC] border border-[#E2E8F0] flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                        <div className="flex items-start gap-3">
-                          <div className="w-9 h-9 rounded-lg bg-white border border-[#E2E8F0] flex items-center justify-center text-[#7C612A] shrink-0">
-                            <Icon name="Activity" size={16} />
-                          </div>
-                          <div>
-                            <div className="flex items-center gap-2 flex-wrap">
-                              <span className="text-[13px] font-bold text-[#17153A]">
-                                Annual Pediatric Dental & Vitals Checkup
-                              </span>
-                              <span className="text-[11px] font-semibold text-[#15803D] bg-[#F0FDF4] border border-[#BBF7D0] px-2 py-0.5 rounded-md">
-                                Completed & Cleared
-                              </span>
+                  {studentVisits.length > 0 ? (
+                    <div className="space-y-2.5">
+                      {studentVisits.map((visit) => (
+                        <div
+                          key={visit.id}
+                          className="p-3.5 rounded-xl bg-[#F8FAFC] border border-[#E2E8F0] hover:bg-[#F1F5F9]/60 transition-colors flex flex-col sm:flex-row sm:items-center justify-between gap-3"
+                        >
+                          <div className="flex items-start gap-3">
+                            <div className="w-9 h-9 rounded-lg bg-white border border-[#E2E8F0] flex items-center justify-center text-[#7C612A] shrink-0 shadow-sm">
+                              <Icon name={visit.icon} size={16} />
                             </div>
-                            <p className="text-[12px] text-[#64748B] mt-0.5">
-                              Action: Height, weight, vision acuity and ear-nose-throat examination verified.
-                            </p>
+                            <div>
+                              <div className="flex items-center gap-2 flex-wrap">
+                                <span className="text-[13px] font-bold text-[#17153A]">
+                                  {visit.title}
+                                </span>
+                                <span className={`text-[11px] font-semibold px-2 py-0.5 rounded-md border ${visit.statusBadge}`}>
+                                  {visit.status}
+                                </span>
+                              </div>
+                              <p className="text-[12px] text-[#64748B] mt-0.5">
+                                Action: <strong className="text-[#17153A]">{visit.action}</strong>
+                              </p>
+                            </div>
+                          </div>
+                          <div className="text-left sm:text-right shrink-0">
+                            <span className="text-[11px] font-mono text-[#64748B] block">
+                              Checkup: {visit.date}
+                            </span>
+                            <span className="text-[10px] text-[#7C612A] font-semibold">Attending: {visit.attending}</span>
                           </div>
                         </div>
-                        <div className="text-left sm:text-right shrink-0">
-                          <span className="text-[11px] font-mono text-[#64748B] block">
-                            Term 1 Checkup
-                          </span>
-                          <span className="text-[10px] text-[#7C612A] font-semibold">Attending: Infirmary Medical Officer</span>
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                ) : (
-                  <div className="text-center py-6 text-[12px] text-[#64748B] bg-[#F8FAFC] rounded-xl border border-dashed border-[#CBD5E1]">
-                    <Icon name="CheckCircle" size={24} className="text-[#15803D] mx-auto mb-1.5" />
-                    <p className="font-semibold text-[#17153A]">No Emergency Infirmary Visits</p>
-                    <p className="text-[11px] mt-0.5">Student has a clean medical attendance record with zero acute visits recorded this academic year.</p>
-                  </div>
-                )}
-              </div>
-            )}
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="text-center py-6 text-[12px] text-[#64748B] bg-[#F8FAFC] rounded-xl border border-dashed border-[#CBD5E1]">
+                      <Icon name="CheckCircle" size={24} className="text-[#15803D] mx-auto mb-1.5" />
+                      <p className="font-semibold text-[#17153A]">No Emergency Infirmary Visits</p>
+                      <p className="text-[11px] mt-0.5">Student has a clean medical attendance record with zero acute visits recorded this academic year.</p>
+                    </div>
+                  )}
+                </div>
+              );
+            })()}
 
             {/* Tab 4: Medicine & Treatment (આપવામાં આવેલી દવા અને treatment) */}
             {dossierTab === 'treatment' && (
