@@ -629,8 +629,9 @@ function NurseProfile() {
                     type="button"
                     onClick={() => setShowCurrentPass(!showCurrentPass)}
                     className="absolute right-3 top-1/2 -translate-y-1/2 text-[#64748B] hover:text-[#17153A] cursor-pointer"
+                    title={showCurrentPass ? 'Hide password' : 'Show password'}
                   >
-                    <Icon name={showCurrentPass ? 'solar:eye-bold' : 'solar:eye-closed-bold'} size={16} />
+                    <Icon name={showCurrentPass ? 'EyeOff' : 'Eye'} size={16} strokeWidth={1.75} />
                   </button>
                 </div>
               </div>
@@ -652,8 +653,9 @@ function NurseProfile() {
                     type="button"
                     onClick={() => setShowNewPass(!showNewPass)}
                     className="absolute right-3 top-1/2 -translate-y-1/2 text-[#64748B] hover:text-[#17153A] cursor-pointer"
+                    title={showNewPass ? 'Hide password' : 'Show password'}
                   >
-                    <Icon name={showNewPass ? 'solar:eye-bold' : 'solar:eye-closed-bold'} size={16} />
+                    <Icon name={showNewPass ? 'EyeOff' : 'Eye'} size={16} strokeWidth={1.75} />
                   </button>
                 </div>
               </div>
@@ -675,8 +677,9 @@ function NurseProfile() {
                     type="button"
                     onClick={() => setShowConfirmPass(!showConfirmPass)}
                     className="absolute right-3 top-1/2 -translate-y-1/2 text-[#64748B] hover:text-[#17153A] cursor-pointer"
+                    title={showConfirmPass ? 'Hide password' : 'Show password'}
                   >
-                    <Icon name={showConfirmPass ? 'solar:eye-bold' : 'solar:eye-closed-bold'} size={16} />
+                    <Icon name={showConfirmPass ? 'EyeOff' : 'Eye'} size={16} strokeWidth={1.75} />
                   </button>
                 </div>
               </div>

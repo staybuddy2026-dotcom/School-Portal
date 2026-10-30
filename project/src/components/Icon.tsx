@@ -56,6 +56,7 @@ const standardIconMap: Record<string, string> = {
   Trophy: 'lucide:trophy',
   PartyPopper: 'lucide:party-popper',
   Eye: 'lucide:eye',
+  EyeOff: 'lucide:eye-off',
   Bus: 'lucide:bus',
   LifeBuoy: 'lucide:life-buoy',
   Helpdesk: 'lucide:circle-help',

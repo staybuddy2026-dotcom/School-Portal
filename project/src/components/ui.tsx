@@ -501,6 +501,13 @@ export function Tabs({ tabs, active, onChange, className = '' }: TabsProps) {
               : `border-transparent text-[${colors.text.secondary}] hover:text-[${colors.text.primary}] hover:border-[${colors.border.medium}]`
               }`}
           >
+            {icon && (
+              typeof icon === 'string' ? (
+                <Icon name={icon} size={16} className={isActive ? `text-[${colors.brand.primary}]` : `text-[${colors.text.secondary}]`} />
+              ) : (
+                icon
+              )
+            )}
             <span>{label}</span>
             {count !== undefined && (
               <span className={`px-2 py-0.5 text-[10px] rounded-full font-bold ${isActive

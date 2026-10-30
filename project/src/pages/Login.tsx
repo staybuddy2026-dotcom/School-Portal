@@ -23,17 +23,6 @@ interface RoleItem {
 
 const roles: RoleItem[] = [
   {
-    role: 'superadmin',
-    title: 'Super Admin',
-    subtitle: 'Setup & System',
-    badge: 'Master',
-    icon: 'solar:shield-check-linear',
-    iconColor: 'text-[#560110]',
-    iconBg: 'bg-[#FDF2F4] border-[#FCD9E0]',
-    demoEmail: 'superadmin@sadvidhya.edu',
-    isFeatured: true,
-  },
-  {
     role: 'admin',
     title: 'School Admin',
     subtitle: 'Students & Office',
@@ -159,50 +148,10 @@ export function Login({ onLogin, onBack }: LoginProps) {
         </div>
 
         {!selectedRole ? (
-          /* Compact Role Cards Grid - Perfectly fits within single viewport without scrolling */
-          <div className="animate-fade-in w-full space-y-3 sm:space-y-3.5">
-            {/* Row 1: 4 Cards (Super Admin, School Admin, Teacher, Accountant) */}
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-3.5">
-              {roles.slice(0, 4).map(r => (
-                <button
-                  key={r.role}
-                  type="button"
-                  onClick={() => handleSelectRole(r)}
-                  className="group relative flex flex-col justify-between p-4 sm:p-4.5 rounded-[18px] sm:rounded-[20px] bg-white border border-[#E2E8F0] shadow-[0_2px_12px_rgba(0,0,0,0.03)] hover:shadow-[0_8px_24px_rgba(23,21,58,0.08)] hover:-translate-y-0.5 transition-all duration-200 text-left cursor-pointer overflow-hidden"
-                >
-                  {/* Top row: Icon Box */}
-                  <div className="flex items-start justify-between w-full">
-                    <div
-                      className={`w-9.5 h-9.5 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center border ${r.iconBg} ${r.iconColor} group-hover:scale-105 transition-transform shadow-2xs`}
-                    >
-                      <Icon name={r.icon} size={19} strokeWidth={1.5} />
-                    </div>
-                  </div>
-
-                  {/* Middle content: Title & Subtitle */}
-                  <div className="w-full my-2 sm:my-2.5">
-                    <h3 className="text-[14px] sm:text-[16px] font-bold leading-snug text-[#17153A] group-hover:text-[#560110] transition-colors">
-                      {r.title}
-                    </h3>
-                    <p className="text-[12px] text-[#64748B] font-normal mt-0.5 truncate">{r.subtitle}</p>
-                  </div>
-
-                  {/* Bottom row: "Access Portal" & Circular Arrow Button */}
-                  <div className="flex items-center justify-between w-full pt-2 sm:pt-2.5 border-t border-[#F1F5F9]">
-                    <span className="text-[12px] font-semibold text-[#17153A] group-hover:text-[#560110] transition-colors">
-                      Access Portal
-                    </span>
-                    <div className="w-6.5 h-6.5 sm:w-7 sm:h-7 rounded-full flex items-center justify-center bg-[#F8FAFC] text-[#64748B] border border-[#E2E8F0] group-hover:bg-[#17153A] group-hover:text-white group-hover:border-[#17153A] transition-all shadow-2xs">
-                      <Icon name="solar:arrow-right-linear" size={12} strokeWidth={1.5} />
-                    </div>
-                  </div>
-                </button>
-              ))}
-            </div>
-
-            {/* Row 2: 3 Cards Centered (Transport, Nurse, Parent) */}
-            <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-3.5 max-w-3xl mx-auto">
-              {roles.slice(4).map(r => (
+          /* Role Cards Grid - 3 on top, 3 on bottom, perfectly centered */
+          <div className="animate-fade-in w-full max-w-4xl mx-auto">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5 sm:gap-4">
+              {roles.map(r => (
                 <button
                   key={r.role}
                   type="button"

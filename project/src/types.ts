@@ -234,3 +234,91 @@ export interface FAQ {
   question: string;
   answer: string;
 }
+
+// ==========================================
+// Student Fee Ledger Module Types
+// ==========================================
+export type LedgerFeeStatus = 'Paid' | 'Partially Paid' | 'Due' | 'Overdue';
+
+export interface FeeHeadBreakdown {
+  id: string;
+  headName: string;
+  category: 'Academic' | 'Admission' | 'Activity' | 'Examination' | 'Transport' | 'Other';
+  originalAmount: number;
+  concessionAllocation: number;
+  netPayable: number;
+  amountPaid: number;
+  outstandingDue: number;
+  dueDate: string;
+  status: LedgerFeeStatus;
+  paymentMethod?: string;
+}
+
+export interface LedgerInstallment {
+  id: string;
+  installmentNumber: number;
+  installmentName: string;
+  dueDate: string;
+  amountPayable: number;
+  amountPaid: number;
+  remainingAmount: number;
+  status: LedgerFeeStatus;
+  paymentMethod?: string;
+}
+
+export interface LedgerTransaction {
+  id: string;
+  receiptNo: string;
+  date: string;
+  time?: string;
+  allocation: string;
+  amount: number;
+  mode: 'Online' | 'Cash' | 'Cheque' | 'UPI' | 'Bank Transfer' | 'DD';
+  transactionRef: string;
+  receivedBy: string;
+  status: 'Successful' | 'Cleared' | 'Pending' | 'Bounced' | 'Refunded';
+  remarks?: string;
+}
+
+export interface LedgerConcession {
+  id: string;
+  type: string;
+  amount: number;
+  percentage?: number;
+  reason: string;
+  status: 'Approved' | 'Pending' | 'Rejected';
+  approvedBy?: string;
+  approvalDate?: string;
+}
+
+export interface StudentFeeLedgerAccount {
+  id: string;
+  studentId: string;
+  studentName: string;
+  grNumber: string;
+  rollNumber: string;
+  class: string;
+  section: string;
+  academicYear: string;
+  parentName: string;
+  parentPhone: string;
+  parentEmail?: string;
+  photo?: string;
+  totalFee: number;
+  approvedConcession: number;
+  netPayable: number;
+  totalPaid: number;
+  outstandingDue: number;
+  advanceBalance: number;
+  status: LedgerFeeStatus;
+  studentStatus?: 'Active' | 'Inactive';
+  dueDate?: string;
+  paymentMethod?: string;
+  feeHeads: FeeHeadBreakdown[];
+  installments: LedgerInstallment[];
+  transactions: LedgerTransaction[];
+  concessions: LedgerConcession[];
+  initializedAt: string;
+  lastUpdated: string;
+  notes?: string;
+}

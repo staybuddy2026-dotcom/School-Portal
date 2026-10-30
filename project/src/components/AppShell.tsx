@@ -286,11 +286,6 @@ export function AppShell({ role, activeKey, onNavigate, onLogout, children, sele
         <nav className="flex-1 overflow-y-auto scrollbar-thin px-3 py-3 space-y-4">
           {Object.entries(groupedNav).map(([group, items]) => (
             <div key={group}>
-              {group && (
-                <div className="px-3 pt-2 pb-1.5 flex items-center justify-between">
-                  <span className="text-[10.5px] font-bold text-ink-400 uppercase tracking-wider">{group}</span>
-                </div>
-              )}
               <div className="space-y-1">
                 {items.map(item => {
                   const active = activeKey === item.key;

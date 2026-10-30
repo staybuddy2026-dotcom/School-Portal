@@ -71,7 +71,7 @@ function App() {
       {role === 'parent' && <ParentPortal activeKey={activeKey} selectedStudentId={selectedStudentId} />}
       {(role === 'superadmin' || role === 'admin') && <AdminPortal activeKey={activeKey} />}
       {role === 'teacher' && <TeacherPortal activeKey={activeKey} />}
-      {role === 'accountant' && <AccountantPortal activeKey={activeKey} />}
+      {role === 'accountant' && <AccountantPortal activeKey={activeKey} onNavigate={setActiveKey} />}
       {role === 'transport' && <TransportPortal activeKey={activeKey} />}
       {role === 'nurse' && <NursePortal activeKey={activeKey} />}
     </AppShell>
